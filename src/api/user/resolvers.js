@@ -1,6 +1,6 @@
 // import { success, notFound } from "../../services/response/";
 import User from "./model";
-import { sign } from "../../../services/jwt";
+import { sign } from "../../services/jwt";
 
 // export const index = ({ querymen: { query, select, cursor } }, res, next) =>
 //     User.count(query)
@@ -20,7 +20,9 @@ import { sign } from "../../../services/jwt";
 //         .then(success(res))
 //         .catch(next);
 
-// export const showMe = ({ user }, res) => res.json(user.view(true));
+export const showMe = (parent, object, { auth }) => {
+    return auth?.user;
+};
 
 export const create = async (_, { userInput }) => {
     try {

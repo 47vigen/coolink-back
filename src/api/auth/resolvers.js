@@ -1,5 +1,5 @@
 // import { success } from "../../services/response/";
-import { sign, verify } from "../../../services/jwt";
+import { sign, verify } from "../../services/jwt";
 import User from "../../api/user/model";
 
 export const login = async (_, { userInput: { email, password } }) => {

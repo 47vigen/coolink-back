@@ -2,7 +2,7 @@ import crypto from "crypto";
 import bcrypt from "bcrypt";
 import mongoose, { Schema } from "mongoose";
 import mongooseKeywords from "mongoose-keywords";
-import { env } from "../../../config";
+import { env } from "../../config";
 
 const roles = ["USER", "ADMIN"];
 
