@@ -7,8 +7,8 @@ import mercuriusAuth from "mercurius-auth";
 import { env, mongo, port } from "./config";
 import mongoose from "./services/mongoose";
 
-import { login, token } from "./services/api/auth/resolvers";
-import { create as createUser } from "./services/api/user/resolvers";
+import { login, token } from "./api/auth/resolvers";
+import { create as createUser, showMe } from "./api/user/resolvers";
 
 const schema = `
   directive @auth(
@@ -23,6 +23,7 @@ const schema = `
 
   type Query {
     add(x: Int, y: Int): Int @auth(requires: USER)
+    showMe : User @auth(requires: USER)
   }
 
   type Mutation {
@@ -56,6 +57,7 @@ const resolvers = {
             const { x, y } = obj;
             return x + y;
         },
+        showMe,
     },
     Mutation: {
         login,
