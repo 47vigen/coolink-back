@@ -1,6 +1,6 @@
 // import { success, notFound } from "../../services/response/";
-import User from "./model";
-import { sign } from "../../services/jwt";
+import User from './model'
+import { sign } from '../../services/jwt'
 
 // export const index = ({ querymen: { query, select, cursor } }, res, next) =>
 //     User.count(query)
@@ -21,22 +21,22 @@ import { sign } from "../../services/jwt";
 //         .catch(next);
 
 export const showMe = (parent, object, { auth }) => {
-    return auth?.user;
-};
+  return auth?.user
+}
 
 export const create = async (_, { userInput }) => {
-    try {
-        const user = await User.create(userInput);
-        const token = await sign(user.id);
-        return { token, user: user.view(true) };
-    } catch (err) {
-        if (err.name === "MongoError" && err.code === 11000) {
-            throw new Error("email already registered");
-        } else {
-            throw new Error(err);
-        }
+  try {
+    const user = await User.create(userInput)
+    const token = await sign(user.id)
+    return { token, user: user.view(true) }
+  } catch (err) {
+    if (err.name === 'MongoError' && err.code === 11000) {
+      throw new Error('email already registered')
+    } else {
+      throw new Error(err)
     }
-};
+  }
+}
 
 // export const update = ({ bodymen: { body }, params, user }, res, next) =>
 //     User.findById(params.id === "me" ? user.id : params.id)

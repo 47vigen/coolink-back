@@ -1,18 +1,10 @@
 {
-    "parser": "babel-eslint",
-    "extends": ["standard"],
-    "env": {
-        "jasmine": true
-    },
-    "rules": {
-        "semi": [2, "always"],
-        "indent": ["error", 4],
-        "quotes": ["error", "double"],
-        "comma-dangle": [
-            "error",
-            {
-                "objects": "always-multiline"
-            }
-        ]
-    }
+  "parser": "babel-eslint",
+  "extends": ["standard"],
+  "env": {
+    "jasmine": true
+  },
+  "rules": {
+    "space-before-function-paren": "off"
+  }
 }
