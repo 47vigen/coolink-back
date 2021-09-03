@@ -92,3 +92,12 @@ export const create = async (_, { userInput }) => {
 //         .then((user) => (user ? user.remove() : null))
 //         .then(success(res, 204))
 //         .catch(next);
+
+export const resolvers = {
+  Query: {
+    showMe
+  },
+  Mutation: {
+    createUser: create
+  }
+}

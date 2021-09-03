@@ -4,73 +4,27 @@ import Fastify from 'fastify'
 import mercurius from 'mercurius'
 import mercuriusAuth from 'mercurius-auth'
 
+import { makeExecutableSchema } from '@graphql-tools/schema'
+import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge'
+
 import { env, mongo, port } from './config'
 import mongoose from './services/mongoose'
+import { useToken } from './services/jwt'
 
-import { login, token } from './api/auth/resolvers'
-import { create as createUser, showMe } from './api/user/resolvers'
-
-const schema = `
-  directive @auth(
-    requires: Role = ADMIN,
-  ) on OBJECT | FIELD_DEFINITION
-
-  enum Role {
-    ADMIN
-    USER
-    UNKNOWN
-  }
-
-  type Query {
-    add(x: Int, y: Int): Int @auth(requires: USER)
-    showMe : User @auth(requires: USER)
-  }
-
-  type Mutation {
-      createUser(userInput : UserInput!) : WithToken
-      login(userInput : UserInput!) : WithToken
-  }
-
-  type WithToken {
-    token : String!
-    user : User
-  }
-
-  input UserInput {
-    name: String
-    picture: String
-    email: String!
-    password: String!
-  }
-
-  type User {
-      id: ID!
-      name: String
-      picture: String
-      email: String!
-  }
-`
-
-const resolvers = {
-  Query: {
-    add: async (_, obj) => {
-      const { x, y } = obj
-      return x + y
-    },
-    showMe
-  },
-  Mutation: {
-    login,
-    createUser
-  }
-}
+import { typeSchema, inputSchema } from './graphql/common'
+import { schema as authSchema, resolvers as authResolvers } from './graphql/auth'
+import { schema as userSchema, resolvers as userResolvers } from './graphql/user'
 
 async function startServer() {
   const app = Fastify()
 
   app.register(mercurius, {
-    schema,
-    resolvers,
+    schema: makeExecutableSchema({
+      // Merge type definitions from different sources
+      typeDefs: mergeTypeDefs([typeSchema, inputSchema, authSchema, userSchema]),
+      // Merge resolvers from different sources
+      resolvers: mergeResolvers([authResolvers, userResolvers])
+    }),
     graphiql: true
   })
 
@@ -82,7 +36,7 @@ async function startServer() {
   })
 
   app.graphql.addHook('preExecution', async (schema, document, context) => {
-    const user = await token(context)
+    const user = await useToken(context)
     context.auth = {
       identity: user?.role || 'UNKNOWN',
       user
