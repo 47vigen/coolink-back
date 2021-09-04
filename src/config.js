@@ -40,7 +40,7 @@ const config = {
   test: {},
   development: {
     mongo: {
-      uri: 'mongodb://localhost/back-gql-dev',
+      uri: process.env.MONGODB_URI || 'mongodb://localhost/back-gql-dev',
       options: {
         debug: true
       }
