@@ -19,7 +19,7 @@ export const verifyRefresh = (token) => jwtVerify(token, jwtRefreshSecret)
 export const isAuth = async (context) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const token = context.reply.request.headers.authorization?.slice('Bearer ')[1]
+    const token = context.reply.request.headers.authorization?.split('Bearer ')[1]
     if (!token) return null
 
     const { id } = await verify(token)
@@ -27,7 +27,7 @@ export const isAuth = async (context) => {
 
     return user
   } catch (err) {
-    throw err
+    throw new Error(err)
   }
 }
 
