@@ -14,8 +14,8 @@ const login = async (_, { userInput: { email, password } }) => {
     }
     const token = await sign(validUser.id)
     return { token, user }
-  } catch (_err) {
-    throw new Error('Email not matched with password')
+  } catch (err) {
+    throw new Error(err)
   }
 }
 
