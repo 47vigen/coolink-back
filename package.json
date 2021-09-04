@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node build/index.js",
     "build": "yarn install && babel src -d build",
-    "dev": "nodemon . --ignore state.json",
+    "dev": "nodemon . --ignore states/ig.json",
     "prod": "cross-env NODE_ENV=production nodemon -r dotenv-safe/config .",
     "lint": "eslint src"
   },
@@ -20,6 +20,7 @@
     "@babel/runtime": "^7.15.3",
     "@graphql-tools/merge": "^8.1.0",
     "@graphql-tools/schema": "^8.2.0",
+    "app-root-path": "^3.0.0",
     "bcrypt": "^5.0.1",
     "bluebird": "^3.7.2",
     "fastify": "^3.20.2",

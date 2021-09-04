@@ -1,14 +1,18 @@
 import { writeFile, readFile, access } from 'fs'
+import path from 'path'
 
 import { IgApiClient } from 'instagram-private-api'
 import { withFbns } from 'instagram_mqtt'
 import Promise from 'bluebird'
+import appRoot from 'app-root-path'
 
 import { coolinkBotUsername, coolinkBotPassword } from '../../config'
 
 const writeFileSync = Promise.promisify(writeFile)
 const readFileSync = Promise.promisify(readFile)
 const accessSync = Promise.promisify(access)
+const igStatePath = path.join(appRoot.toString(), 'states', 'ig.json')
+console.log(igStatePath)
 
 export const getIg = async () => {
   const ig = withFbns(new IgApiClient())
@@ -49,12 +53,12 @@ export const getIg = async () => {
 }
 
 async function saveState(ig) {
-  return writeFileSync('state.json', await ig.exportState(), { encoding: 'utf8' })
+  return writeFileSync(igStatePath, await ig.exportState(), { encoding: 'utf8' })
 }
 
 async function readState(ig) {
-  if (!(await accessSync('state.json'))) return
-  await ig.importState(await readFileSync('state.json', { encoding: 'utf8' }))
+  if (!(await accessSync(igStatePath))) return
+  await ig.importState(await readFileSync(igStatePath, { encoding: 'utf8' }))
 }
 
 async function loginToInstagram(ig) {
