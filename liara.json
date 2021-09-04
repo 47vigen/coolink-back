@@ -1,0 +1,5 @@
+{
+  "platform": "node",
+  "app": "coolink-back",
+  "port": 3000
+}
