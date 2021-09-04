@@ -1,13 +1,14 @@
 'use strict'
 
 import Fastify from 'fastify'
+import cookie from 'fastify-cookie'
 import mercurius from 'mercurius'
 import mercuriusAuth from 'mercurius-auth'
 
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge'
 
-import { env, mongo, port } from './config'
+import { env, mongo, port, cookieSecret } from './config'
 import mongoose from './services/mongoose'
 import { useToken } from './services/jwt'
 
@@ -17,6 +18,10 @@ import { schema as userSchema, resolvers as userResolvers } from './graphql/user
 
 async function startServer() {
   const app = Fastify()
+
+  app.register(cookie, {
+    secret: cookieSecret
+  })
 
   app.register(mercurius, {
     schema: makeExecutableSchema({
