@@ -1,5 +1,11 @@
 {
   "platform": "node",
   "app": "coolink-back",
-  "port": 3000
+  "port": 3000,
+  "disks": [
+    {
+      "name": "states",
+      "mountTo": "states"
+    }
+  ]
 }
