@@ -4,7 +4,8 @@
   "description": "just created with graphql",
   "main": "src",
   "scripts": {
-    "start": "node .",
+    "start": "node build/index.js",
+    "build": "babel src -d build",
     "dev": "nodemon . --ignore state.json",
     "prod": "cross-env NODE_ENV=production nodemon -r dotenv-safe/config .",
     "lint": "eslint src"
@@ -39,6 +40,7 @@
     "passport-jwt": "^4.0.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.15.4",
     "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.3",
     "dotenv-safe": "^8.2.0",
