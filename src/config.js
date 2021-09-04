@@ -25,6 +25,7 @@ const config = {
     apiRoot: process.env.API_ROOT || '',
     masterKey: requireProcessEnv('MASTER_KEY'),
     jwtSecret: requireProcessEnv('JWT_SECRET'),
+    jwtRefreshSecret: requireProcessEnv('JWT_REFRESH_SECRET'),
     cookieSecret: requireProcessEnv('COOKIE_SECRET'),
     mongo: {
       options: {
