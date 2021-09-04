@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import jwt, { JsonWebTokenError } from 'jsonwebtoken'
 import Promise from 'bluebird'
 import { jwtSecret, jwtRefreshSecret } from '../../config'
 import User from '../../graphql/user/model'
@@ -28,5 +28,23 @@ export const isAuth = async (context) => {
     return user
   } catch (err) {
     throw err
+  }
+}
+
+export const refreshToken = async (req, reply) => {
+  try {
+    const refresh = req.cookies.refresh
+    const { id } = await verifyRefresh(refresh)
+
+    const user = await User.findById(id)
+    if (!user) reply.code(401).send('user not authorized')
+
+    const token = await sign(user.id)
+
+    reply.code(200).send({ token })
+  } catch (err) {
+    if (err instanceof JsonWebTokenError) {
+      reply.code(401).send('you most relogin')
+    } else throw new Error(err)
   }
 }

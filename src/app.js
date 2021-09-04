@@ -10,7 +10,7 @@ import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge'
 
 import { env, mongo, port, cookieSecret } from './config'
 import mongoose from './services/mongoose'
-import { isAuth } from './services/jwt'
+import { isAuth, refreshToken } from './services/jwt'
 
 import { typeSchema, inputSchema } from './graphql/common'
 import { schema as authSchema, resolvers as authResolvers } from './graphql/auth'
@@ -22,6 +22,8 @@ async function startServer() {
   app.register(cookie, {
     secret: cookieSecret
   })
+
+  app.get('/refresh', refreshToken)
 
   app.register(mercurius, {
     schema: makeExecutableSchema({
