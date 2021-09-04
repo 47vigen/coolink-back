@@ -12,7 +12,7 @@ export const signSync = (id, options) => sign(id, options, jwt.sign)
 
 export const verify = (token) => jwtVerify(token, jwtSecret)
 
-export const useToken = async (context) => {
+export const isAuth = async (context) => {
   // eslint-disable-next-line no-useless-catch
   try {
     const token = context.reply.request.headers.authorization?.replace('Bearer ', '')

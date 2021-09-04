@@ -10,7 +10,7 @@ import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge'
 
 import { env, mongo, port, cookieSecret } from './config'
 import mongoose from './services/mongoose'
-import { useToken } from './services/jwt'
+import { isAuth } from './services/jwt'
 
 import { typeSchema, inputSchema } from './graphql/common'
 import { schema as authSchema, resolvers as authResolvers } from './graphql/auth'
@@ -41,7 +41,7 @@ async function startServer() {
   })
 
   app.graphql.addHook('preExecution', async (schema, document, context) => {
-    const user = await useToken(context)
+    const user = await isAuth(context)
     context.auth = {
       identity: user?.role || 'UNKNOWN',
       user
