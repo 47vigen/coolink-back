@@ -8,7 +8,7 @@ import mercuriusAuth from 'mercurius-auth'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge'
 
-import { env, mongo, port, cookieSecret } from './config'
+import { ip, env, mongo, port, cookieSecret } from './config'
 import mongoose from './services/mongoose'
 import { isAuth, refreshToken } from './services/jwt'
 
@@ -58,6 +58,6 @@ import { schema as igSchema, resolvers as igResolvers } from './graphql/instagra
   mongoose.Promise = Promise
 
   setImmediate(() => {
-    app.listen(port).then(() => console.log('🚀 Server ready at http://localhost:%d/graphiql, in %s mode', port, env))
+    app.listen({ port: 3000, host: ip }).then(() => console.log('🚀 Server ready at http://%s:%d, in %s mode', ip, port, env))
   })
 })()
