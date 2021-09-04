@@ -16,7 +16,8 @@ import { typeSchema, inputSchema } from './graphql/common'
 import { schema as authSchema, resolvers as authResolvers } from './graphql/auth'
 import { schema as userSchema, resolvers as userResolvers } from './graphql/user'
 
-async function startServer() {
+// server starter function
+;(async () => {
   const app = Fastify()
 
   app.register(cookie, {
@@ -58,6 +59,4 @@ async function startServer() {
   setImmediate(() => {
     app.listen(port).then(() => console.log('🚀 Server ready at http://localhost:%d/graphiql, in %s mode', port, env))
   })
-}
-
-startServer()
+})()
