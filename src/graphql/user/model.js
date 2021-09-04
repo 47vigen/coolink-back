@@ -85,8 +85,9 @@ userSchema.methods = {
     return view
   },
 
-  authenticate(password) {
-    return bcrypt.compare(password, this.password).then((valid) => (valid ? this : false))
+  async authenticate(password) {
+    const valid = await bcrypt.compare(password, this.password)
+    return valid ? this : false
   }
 }
 
