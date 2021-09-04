@@ -58,6 +58,6 @@ import { schema as igSchema, resolvers as igResolvers } from './graphql/instagra
   mongoose.Promise = Promise
 
   setImmediate(() => {
-    app.listen({ port: 3000, host: ip }).then(() => console.log('🚀 Server ready at http://%s:%d, in %s mode', ip, port, env))
+    app.listen({ port, host: ip }).then(() => console.log('🚀 Server ready at http://%s:%d, in %s mode', ip, port, env))
   })
 })()
