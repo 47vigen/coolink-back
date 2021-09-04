@@ -5,7 +5,7 @@
   "main": "src",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon .",
+    "dev": "nodemon . --ignore state.json",
     "prod": "cross-env NODE_ENV=production nodemon -r dotenv-safe/config .",
     "lint": "eslint src"
   },
@@ -24,6 +24,8 @@
     "fastify": "^3.20.2",
     "fastify-cookie": "^5.3.1",
     "graphql-passport": "^0.6.3",
+    "instagram-private-api": "^1.45.1",
+    "instagram_mqtt": "^1.2.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "mercurius": "^8.1.3",

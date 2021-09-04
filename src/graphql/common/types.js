@@ -12,4 +12,10 @@ export const typeSchema = gql`
     picture: String
     email: String!
   }
+
+  type PageInfo {
+    pk: ID!
+    fullName: String!
+    profilePic: String
+  }
 `

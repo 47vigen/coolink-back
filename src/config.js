@@ -27,6 +27,8 @@ const config = {
     jwtSecret: requireProcessEnv('JWT_SECRET'),
     jwtRefreshSecret: requireProcessEnv('JWT_REFRESH_SECRET'),
     cookieSecret: requireProcessEnv('COOKIE_SECRET'),
+    coolinkBotUsername: requireProcessEnv('COOLINK_BOT_USERNAME'),
+    coolinkBotPassword: requireProcessEnv('COOLINK_BOT_PASSWORD'),
     mongo: {
       options: {
         useUnifiedTopology: true,
