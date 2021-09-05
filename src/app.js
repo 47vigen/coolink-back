@@ -11,6 +11,7 @@ import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge'
 import { ip, env, mongo, port, cookieSecret } from './config'
 import mongoose from './services/mongoose'
 import { isAuth, refreshToken } from './services/jwt'
+import { connectIG } from './services/instagram'
 
 import { typeSchema, inputSchema } from './graphql/common'
 import { schema as authSchema, resolvers as authResolvers } from './graphql/auth'
@@ -56,6 +57,8 @@ import { schema as igSchema, resolvers as igResolvers } from './graphql/instagra
     mongoose.connect(mongo.uri)
   }
   mongoose.Promise = Promise
+
+  await connectIG()
 
   setImmediate(() => {
     app.listen({ port, host: ip }).then(() => console.log('🚀 Server ready at http://%s:%d, in %s mode', ip, port, env))
