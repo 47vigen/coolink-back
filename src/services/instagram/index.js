@@ -66,10 +66,8 @@ export const loginIG = async (generateDevice) => {
   if (generateDevice) IG.state.generateDevice(coolinkBotUsername)
 
   try {
-    // await ig.simulate.preLoginFlow()
     IG.request.end$.subscribe(() => saveState(IG))
     await IG.account.login(coolinkBotUsername, coolinkBotPassword)
-    // process.nextTick(async () => await ig.simulate.postLoginFlow())
   } catch (err) {
     throw new Error(err)
   }
