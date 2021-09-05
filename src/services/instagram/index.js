@@ -19,10 +19,10 @@ export const connectIG = async () => {
   IG.state.generateDevice(coolinkBotUsername)
 
   // this will set the auth and the cookies for instagram
-  await readState(IG)
+  await readState()
 
   // this logs the client in
-  await loginIG(IG)
+  await loginIG()
 
   // you received a notification
   IG.fbns.on('push', logEvent('push'))
@@ -34,7 +34,7 @@ export const connectIG = async () => {
     logEvent('auth')(auth)
 
     // saves the auth
-    await saveState(IG)
+    await saveState()
   })
 
   // 'error' is emitted whenever the client experiences a fatal error
@@ -51,27 +51,25 @@ export const connectIG = async () => {
   console.log('📸 coonected to instagram')
 }
 
-const saveState = async (ig) => {
-  return writeFileSync(igStatePath, await ig.exportState(), { encoding: 'utf8' })
+const saveState = async () => {
+  return writeFileSync(igStatePath, await IG.exportState(), { encoding: 'utf8' })
 }
 
-const readState = async (ig) => {
+const readState = async () => {
   if (!(await accessSync(igStatePath))) return
-  await ig.importState(await readFileSync(igStatePath, { encoding: 'utf8' }))
+  await IG.importState(await readFileSync(igStatePath, { encoding: 'utf8' }))
 }
 
-export const loginIG = async (ig, generateDevice) => {
+export const loginIG = async (generateDevice) => {
   console.log('🔐 try to login instagram')
 
   if (generateDevice) IG.state.generateDevice(coolinkBotUsername)
 
-  ig.request.end$.subscribe(() => saveState(ig))
-
   try {
-    ig.state.generateDevice(coolinkBotUsername)
-    await ig.simulate.preLoginFlow()
-    await ig.account.login(coolinkBotUsername, coolinkBotPassword)
-    process.nextTick(async () => await ig.simulate.postLoginFlow())
+    // await ig.simulate.preLoginFlow()
+    IG.request.end$.subscribe(() => saveState(IG))
+    await IG.account.login(coolinkBotUsername, coolinkBotPassword)
+    // process.nextTick(async () => await ig.simulate.postLoginFlow())
   } catch (err) {
     throw new Error(err)
   }
