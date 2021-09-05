@@ -27,7 +27,7 @@ const getPageFeeds = async (_, { pk, firstFeed, next }, ctx) => {
 
     if (next) followersFeed.deserialize(JSON.stringify({ nextMaxId: next }))
 
-    const { items } = await followersFeed.request()
+    const { items, next_max_id: nextPage } = await followersFeed.request()
 
     const feeds = []
     for (const item of items) {
@@ -72,7 +72,7 @@ const getPageFeeds = async (_, { pk, firstFeed, next }, ctx) => {
       })
     }
 
-    return feeds
+    return { feeds, next: nextPage }
   } catch (err) {
     if (e instanceof IgLoginRequiredError) {
       await loginIG()

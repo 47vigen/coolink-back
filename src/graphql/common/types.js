@@ -19,6 +19,11 @@ export const typeSchema = gql`
     profilePic: String
   }
 
+  type PageFeeds {
+    feeds: [Feed]!
+    next: String
+  }
+
   type Feed {
     id: ID!
     pk: ID!
