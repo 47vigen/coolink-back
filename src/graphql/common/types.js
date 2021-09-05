@@ -18,4 +18,23 @@ export const typeSchema = gql`
     fullName: String!
     profilePic: String
   }
+
+  type Feed {
+    id: ID!
+    pk: ID!
+    createdAt: String!
+    caption: String
+    slides: [Slide]!
+  }
+
+  type Slide {
+    type: SlideType!
+    imageUrl: String!
+    videoUrl: String
+  }
+
+  enum SlideType {
+    VIDEO
+    IMAGE
+  }
 `
