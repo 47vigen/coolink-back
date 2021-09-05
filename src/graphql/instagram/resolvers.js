@@ -1,4 +1,5 @@
-import { IG } from '../../services/instagram'
+import { IgLoginRequiredError } from 'instagram-private-api'
+import { IG, loginIG } from '../../services/instagram'
 
 const getPageInfo = async (_, { username }, ctx) => {
   try {
@@ -12,7 +13,11 @@ const getPageInfo = async (_, { username }, ctx) => {
 
     return { pk, fullName, profilePic }
   } catch (err) {
-    throw new Error(err)
+    if (e instanceof IgLoginRequiredError) {
+      await loginIG()
+    } else {
+      throw new Error(err)
+    }
   }
 }
 
@@ -69,7 +74,11 @@ const getPageFeeds = async (_, { pk, firstFeed, next }, ctx) => {
 
     return feeds
   } catch (err) {
-    throw new Error(err)
+    if (e instanceof IgLoginRequiredError) {
+      await loginIG()
+    } else {
+      throw new Error(err)
+    }
   }
 }
 
