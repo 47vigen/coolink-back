@@ -13,7 +13,7 @@ const getPageInfo = async (_, { username }, ctx) => {
 
     return { pk, fullName, profilePic }
   } catch (err) {
-    if (e instanceof IgLoginRequiredError) {
+    if (err instanceof IgLoginRequiredError) {
       await loginIG()
     } else {
       throw new Error(err)
@@ -74,7 +74,7 @@ const getPageFeeds = async (_, { pk, firstFeed, next }, ctx) => {
 
     return { feeds, next: nextPage }
   } catch (err) {
-    if (e instanceof IgLoginRequiredError) {
+    if (err instanceof IgLoginRequiredError) {
       await loginIG()
     } else {
       throw new Error(err)
