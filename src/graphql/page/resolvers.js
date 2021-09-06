@@ -12,9 +12,15 @@ const create = async (_, { pageInput }, { auth }) => {
   }
 }
 
-export const resolvers = {
-  Mutation: {
-    createPage: create
+const showById = async (_, { id }, { auth }) => {
+  try {
+    const data = await Page.findById(id)
+    if (!data) return null
+
+    const page = data.view()
+    return page
+  } catch (err) {
+    throw new Error(err)
   }
 }
 
@@ -28,14 +34,6 @@ export const resolvers = {
 //           rows: pages.map((page) => page.view())
 //         }))
 //     )
-//     .then(success(res))
-//     .catch(next)
-
-// export const show = ({ params }, res, next) =>
-//   Page.findById(params.id)
-//     .populate('user')
-//     .then(notFound(res))
-//     .then((page) => (page ? page.view() : null))
 //     .then(success(res))
 //     .catch(next)
 
@@ -56,3 +54,13 @@ export const resolvers = {
 //     .then((page) => (page ? page.remove() : null))
 //     .then(success(res, 204))
 //     .catch(next)
+
+export const resolvers = {
+  Query: {
+    showPagebyId: showById
+  },
+
+  Mutation: {
+    createPage: create
+  }
+}
