@@ -8,7 +8,7 @@ import mercuriusAuth from 'mercurius-auth'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge'
 
-import { ip, env, mongo, port, cookieSecret } from './config'
+import { ip, env, mongo, port, cookieSecret, instagram } from './config'
 import mongoose from './services/mongoose'
 import { isAuth, refreshToken } from './services/jwt'
 import { connectIG } from './services/instagram'
@@ -58,7 +58,9 @@ import { schema as igSchema, resolvers as igResolvers } from './graphql/instagra
   }
   mongoose.Promise = Promise
 
-  await connectIG()
+  if (instagram.enable) {
+    await connectIG()
+  }
 
   setImmediate(() => {
     app.listen({ port, host: ip }).then(() => console.log('🚀 Server ready at http://%s:%d, in %s mode', ip, port, env))

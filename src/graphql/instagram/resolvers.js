@@ -1,7 +1,10 @@
 import { IgLoginRequiredError } from 'instagram-private-api'
 import { IG, loginIG } from '../../services/instagram'
+import { instagram } from '../../config'
 
 const getPageInfo = async (_, { username }, ctx) => {
+  if (!instagram.enable) throw new Error('Instagram service is NOT enable')
+
   try {
     const takedPk = await IG.user.getIdByUsername(username)
 
@@ -23,6 +26,8 @@ const getPageInfo = async (_, { username }, ctx) => {
 }
 
 const getPageFeeds = async (_, { pk, firstFeed, next }, ctx) => {
+  if (!instagram.enable) throw new Error('Instagram service is NOT enable')
+
   try {
     const followersFeed = IG.feed.user(pk)
 
@@ -84,6 +89,8 @@ const getPageFeeds = async (_, { pk, firstFeed, next }, ctx) => {
 }
 
 const sendFollowRequest = async (_, { pk }, ctx) => {
+  if (!instagram.enable) throw new Error('Instagram service is NOT enable')
+
   try {
     const { outgoing_request: outgoingRequest, following } = await IG.friendship.create(pk)
     return { outgoingRequest, following }

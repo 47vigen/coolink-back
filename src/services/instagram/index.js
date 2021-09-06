@@ -6,7 +6,7 @@ import { withFbns } from 'instagram_mqtt'
 import Promise from 'bluebird'
 import appRoot from 'app-root-path'
 
-import { coolinkBotUsername, coolinkBotPassword } from '../../config'
+import { instagram } from '../../config'
 
 const writeFileSync = Promise.promisify(writeFile)
 const readFileSync = Promise.promisify(readFile)
@@ -16,7 +16,7 @@ const igStatePath = path.join(appRoot.toString(), 'states', 'ig.json')
 export const IG = withFbns(new IgApiClient())
 
 export const connectIG = async () => {
-  IG.state.generateDevice(coolinkBotUsername)
+  IG.state.generateDevice(instagram.botUsername)
 
   // this will set the auth and the cookies for instagram
   await readState()
@@ -63,11 +63,11 @@ const readState = async () => {
 export const loginIG = async (generateDevice) => {
   console.log('🔐 try to login instagram')
 
-  if (generateDevice) IG.state.generateDevice(coolinkBotUsername)
+  if (generateDevice) IG.state.generateDevice(instagram.botUsername)
 
   try {
     IG.request.end$.subscribe(() => saveState(IG))
-    await IG.account.login(coolinkBotUsername, coolinkBotPassword)
+    await IG.account.login(instagram.botUsername, instagram.botPassword)
   } catch (err) {
     throw new Error(err)
   }

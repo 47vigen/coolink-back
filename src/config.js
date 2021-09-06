@@ -27,8 +27,11 @@ const config = {
     jwtSecret: requireProcessEnv('JWT_SECRET'),
     jwtRefreshSecret: requireProcessEnv('JWT_REFRESH_SECRET'),
     cookieSecret: requireProcessEnv('COOKIE_SECRET'),
-    coolinkBotUsername: requireProcessEnv('COOLINK_BOT_USERNAME'),
-    coolinkBotPassword: requireProcessEnv('COOLINK_BOT_PASSWORD'),
+    instagram: {
+      enable: requireProcessEnv('IG_ENABLE') === '1' || false,
+      botUsername: requireProcessEnv('IG_BOT_USERNAME'),
+      botPassword: requireProcessEnv('IG_BOT_PASSWORD')
+    },
     mongo: {
       options: {
         useUnifiedTopology: true,
