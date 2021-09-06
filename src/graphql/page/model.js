@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
+import mongooseKeywords from 'mongoose-keywords'
 
 const pageSchema = new Schema(
   {
@@ -13,7 +14,7 @@ const pageSchema = new Schema(
     },
     slug: {
       type: String,
-      match: /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/,
+      slug: /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/,
       required: true,
       unique: true,
       trim: true,
@@ -62,6 +63,8 @@ pageSchema.methods = {
       : view
   }
 }
+
+pageSchema.plugin(mongooseKeywords, { paths: ['slug', 'title', 'subTitle'] })
 
 const model = mongoose.model('Page', pageSchema)
 
