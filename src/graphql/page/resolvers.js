@@ -12,7 +12,19 @@ const create = async (_, { pageInput }, { auth }) => {
   }
 }
 
-const showById = async (_, { id }, { auth }) => {
+const show = async (_, { slug }, ctx) => {
+  try {
+    const data = await Page.findOne({ slug })
+    if (!data) return null
+
+    const page = data.view()
+    return page
+  } catch (err) {
+    throw new Error(err)
+  }
+}
+
+const showById = async (_, { id }, ctx) => {
   try {
     const data = await Page.findById(id)
     if (!data) return null
@@ -57,6 +69,7 @@ const showById = async (_, { id }, { auth }) => {
 
 export const resolvers = {
   Query: {
+    showPage: show,
     showPagebyId: showById
   },
 
