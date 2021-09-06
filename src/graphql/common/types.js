@@ -25,6 +25,11 @@ export const typeSchema = gql`
     next: String
   }
 
+  type FollowRequest {
+    following: Boolean!
+    outgoingRequest: Boolean!
+  }
+
   type Feed {
     id: ID!
     pk: ID!

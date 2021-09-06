@@ -85,8 +85,8 @@ const getPageFeeds = async (_, { pk, firstFeed, next }, ctx) => {
 
 const sendFollowRequest = async (_, { pk }, ctx) => {
   try {
-    const details = await IG.friendship.create(pk)
-    return details.outgoing_request
+    const { outgoing_request: outgoingRequest, following } = await IG.friendship.create(pk)
+    return { outgoingRequest, following }
   } catch (err) {
     if (err instanceof IgLoginRequiredError) {
       await loginIG()
