@@ -13,6 +13,15 @@ export const typeSchema = gql`
     email: String!
   }
 
+  type Page {
+    pk: String!
+    slug: String!
+    title: String!
+    subTitle: String
+    profilePic: String
+    user: User
+  }
+
   type PageInfo {
     pk: ID!
     fullName: String!

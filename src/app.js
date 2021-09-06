@@ -16,6 +16,7 @@ import { connectIG } from './services/instagram'
 import { typeSchema, inputSchema } from './graphql/common'
 import { schema as authSchema, resolvers as authResolvers } from './graphql/auth'
 import { schema as userSchema, resolvers as userResolvers } from './graphql/user'
+import { schema as pageSchema, resolvers as pageResolvers } from './graphql/page'
 import { schema as igSchema, resolvers as igResolvers } from './graphql/instagram'
 
 // server starter function
@@ -31,9 +32,9 @@ import { schema as igSchema, resolvers as igResolvers } from './graphql/instagra
   app.register(mercurius, {
     schema: makeExecutableSchema({
       // Merge type definitions from different sources
-      typeDefs: mergeTypeDefs([typeSchema, inputSchema, authSchema, userSchema, igSchema]),
+      typeDefs: mergeTypeDefs([typeSchema, inputSchema, authSchema, userSchema, pageSchema, igSchema]),
       // Merge resolvers from different sources
-      resolvers: mergeResolvers([authResolvers, userResolvers, igResolvers])
+      resolvers: mergeResolvers([authResolvers, userResolvers, pageResolvers, igResolvers])
     }),
     graphiql: true
   })

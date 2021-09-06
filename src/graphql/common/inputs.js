@@ -7,4 +7,12 @@ export const inputSchema = gql`
     email: String!
     password: String!
   }
+
+  input PageInput {
+    pk: String!
+    slug: String!
+    title: String!
+    subTitle: String
+    profilePic: String
+  }
 `
