@@ -17,6 +17,7 @@ export const typeSchema = gql`
     pk: ID!
     fullName: String!
     profilePic: String
+    isPrivate: Boolean!
   }
 
   type PageFeeds {

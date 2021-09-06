@@ -8,10 +8,11 @@ const getPageInfo = async (_, { username }, ctx) => {
     const {
       pk,
       hd_profile_pic_url_info: { url: profilePic },
-      full_name: fullName
+      full_name: fullName,
+      is_private: isPrivate
     } = await IG.user.info(takedPk)
 
-    return { pk, fullName, profilePic }
+    return { pk, fullName, profilePic, isPrivate }
   } catch (err) {
     if (err instanceof IgLoginRequiredError) {
       await loginIG()
@@ -82,9 +83,23 @@ const getPageFeeds = async (_, { pk, firstFeed, next }, ctx) => {
   }
 }
 
+const sendFollowRequest = async (_, { pk }, ctx) => {
+  try {
+    const details = await IG.friendship.create(pk)
+    return details.outgoing_request
+  } catch (err) {
+    if (err instanceof IgLoginRequiredError) {
+      await loginIG()
+    } else {
+      throw new Error(err)
+    }
+  }
+}
+
 export const resolvers = {
   Mutation: {
     getPageInfo,
-    getPageFeeds
+    getPageFeeds,
+    sendFollowRequest
   }
 }
