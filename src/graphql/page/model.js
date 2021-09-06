@@ -13,6 +13,7 @@ const pageSchema = new Schema(
     },
     slug: {
       type: String,
+      match: /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/,
       required: true,
       unique: true,
       trim: true,
