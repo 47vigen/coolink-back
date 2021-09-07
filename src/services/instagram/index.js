@@ -1,7 +1,7 @@
 import { writeFile, readFile, access } from 'fs'
 import path from 'path'
 
-import { IgApiClient } from 'instagram-private-api'
+import { IgApiClient, IgLoginRequiredError } from 'instagram-private-api'
 import { withFbns } from 'instagram_mqtt'
 import Promise from 'bluebird'
 import appRoot from 'app-root-path'
@@ -15,14 +15,14 @@ const igStatePath = path.join(appRoot.toString(), 'states', 'ig.json')
 
 export const IG = withFbns(new IgApiClient())
 
-export const connectIG = async () => {
+export const IGConnect = async () => {
   IG.state.generateDevice(instagram.botUsername)
 
   // this will set the auth and the cookies for instagram
   await readState()
 
   // this logs the client in
-  await loginIG()
+  await IGLogin()
 
   // you received a notification
   IG.fbns.on('push', logEvent('push'))
@@ -51,16 +51,22 @@ export const connectIG = async () => {
   console.log('📸 coonected to instagram')
 }
 
-const saveState = async () => {
-  return writeFileSync(igStatePath, await IG.exportState(), { encoding: 'utf8' })
+export const IGServiceEnable = () =>
+  new Promise(function (resolve, reject) {
+    if (instagram.enable) {
+      resolve(IG)
+    } else reject(new Error('Instagram service is NOT enable'))
+  })
+
+export const IGThrowError = () => (entityErr) => {
+  if (entityErr instanceof IgLoginRequiredError) {
+    IGLogin()
+  } else {
+    throw new Error(entityErr)
+  }
 }
 
-const readState = async () => {
-  if (!(await accessSync(igStatePath))) return
-  await IG.importState(await readFileSync(igStatePath, { encoding: 'utf8' }))
-}
-
-export const loginIG = async (generateDevice) => {
+export const IGLogin = async (generateDevice) => {
   console.log('🔐 try to login instagram')
 
   if (generateDevice) IG.state.generateDevice(instagram.botUsername)
@@ -71,6 +77,15 @@ export const loginIG = async (generateDevice) => {
   } catch (err) {
     throw new Error(err)
   }
+}
+
+const saveState = async () => {
+  return writeFileSync(igStatePath, await IG.exportState(), { encoding: 'utf8' })
+}
+
+const readState = async () => {
+  if (!(await accessSync(igStatePath))) return
+  await IG.importState(await readFileSync(igStatePath, { encoding: 'utf8' }))
 }
 
 /**

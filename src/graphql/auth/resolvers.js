@@ -1,30 +1,22 @@
 import { sign, signRefresh } from '../../services/jwt'
+import { notFound, throwError } from '../../services/response'
 import User from '../user/model'
 
-const login = async (_, { userInput: { email, password } }, ctx) => {
-  try {
-    const user = await User.findOne({ email })
-    if (!user) {
-      throw new Error('Email not matched with password')
-    }
-
-    const validUser = await user.authenticate(password, user.password)
-    if (!validUser) {
-      throw new Error('Email not matched with password')
-    }
-
-    const token = await sign(validUser.id)
-
-    const tokenRefresh = await signRefresh(validUser.id)
-    ctx.reply.setCookie('refresh', tokenRefresh, {
-      httpOnly: true
+const login = (_, { userInput: { email, password } }, ctx) =>
+  User.findOne({ email })
+    .then(notFound('Email not matched with password'))
+    .then((user) => user.authenticate(password, user.password))
+    .then(notFound('Email not matched with password'))
+    .then((user) => {
+      signRefresh(user.id)
+        .then((tokenRefresh) =>
+          ctx.reply.setCookie('refresh', tokenRefresh, {
+            httpOnly: true
+          })
+        )
+        .then(() => sign(user.id).then((token) => ({ token, user: user.view(true) })))
     })
-
-    return { token, user }
-  } catch (err) {
-    throw new Error(err)
-  }
-}
+    .catch(throwError())
 
 export const resolvers = {
   Mutation: {
