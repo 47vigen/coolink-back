@@ -7,15 +7,16 @@ const login = (_, { userInput: { email, password } }, ctx) =>
     .then(notFound('Email not matched with password'))
     .then((user) => user.authenticate(password, user.password))
     .then(notFound('Email not matched with password'))
-    .then((user) => {
+    .then((user) =>
       signRefresh(user.id)
-        .then((tokenRefresh) =>
+        .then((tokenRefresh) => {
           ctx.reply.setCookie('refresh', tokenRefresh, {
             httpOnly: true
           })
-        )
+          return true
+        })
         .then(() => sign(user.id).then((token) => ({ token, user: user.view(true) })))
-    })
+    )
     .catch(throwError())
 
 export const resolvers = {
