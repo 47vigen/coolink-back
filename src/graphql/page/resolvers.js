@@ -1,4 +1,4 @@
-import { throwError, notFound } from '../../services/response/'
+import { throwError, notFound, authorOrAdmin } from '../../services/response/'
 import Page from './model'
 
 const create = (_, { pageInput }, { auth }) =>
@@ -25,6 +25,22 @@ const showById = (_, { id }, ctx) =>
     .then((page) => (page ? page.view() : null))
     .catch(throwError())
 
+const update = (_, { id, pageInput }, ctx) =>
+  Page.findById(id)
+    .populate('user')
+    .then(notFound())
+    .then(authorOrAdmin(ctx, 'user'))
+    .then((page) => (page ? Object.assign(page, pageInput).save() : null))
+    .then((page) => (page ? page.view(true) : null))
+    .catch(throwError())
+
+const destroy = (_, { id }, ctx) =>
+  Page.findById(id)
+    .then(notFound())
+    .then(authorOrAdmin(ctx, 'user'))
+    .then((page) => (page ? page.remove() : null))
+    .catch(throwError())
+
 export const resolvers = {
   Query: {
     showPage: show,
@@ -32,6 +48,8 @@ export const resolvers = {
   },
 
   Mutation: {
-    createPage: create
+    createPage: create,
+    updatePage: update,
+    destroyPage: destroy
   }
 }
