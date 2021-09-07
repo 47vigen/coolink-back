@@ -29,6 +29,11 @@ export const inputSchema = gql`
     faq: [FaqInput!]
   }
 
+  input SectionManyInput {
+    id: ID!
+    sectionInput: SectionInput!
+  }
+
   input LinkInput {
     url: String!
     title: String!
