@@ -41,7 +41,6 @@ export const typeSchema = gql`
 
   type Feed {
     id: ID!
-    pk: ID!
     createdAt: String!
     caption: String
     slides: [Slide]!
