@@ -9,5 +9,6 @@ export const schema = gql`
   type Mutation {
     createPage(pageInput: PageInput!): Page
     updatePage(id: ID!, pageInput: PageInput!): Page
+    destroyPage(id: ID!): Page
   }
 `
