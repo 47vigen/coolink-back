@@ -52,8 +52,63 @@ export const typeSchema = gql`
     videoUrl: String
   }
 
+  type Section {
+    page: Page
+    user: User
+    type: SectionType!
+    position: Int!
+    title: String
+    links: [Link!]
+    text: String
+    contacts: Contacts
+    messengers: Messengers
+    locations: [Location!]
+    faq: [Faq!]
+  }
+
+  type Link {
+    url: String!
+    title: String!
+  }
+
+  type Contacts {
+    mobile: String
+    phone: String
+    email: String
+    fax: String
+  }
+
+  type Messengers {
+    telegram: String
+    whatsapp: String
+    twitter: String
+    youtube: String
+    linkedin: String
+  }
+
+  type Location {
+    url: String!
+    title: String!
+  }
+
+  type Faq {
+    question: String!
+    answer: String!
+  }
+
   enum SlideType {
     VIDEO
     IMAGE
+  }
+
+  enum SectionType {
+    LINKS
+    TEXT
+    CONTACTS
+    MESSANGERS
+    LOCATIONS
+    FAQ
+    IG_FEEDS_LINK
+    IG_FEEDS_DOWNLOAD
   }
 `
