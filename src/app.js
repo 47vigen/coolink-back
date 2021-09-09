@@ -43,7 +43,8 @@ import { schema as igSchema, resolvers as igResolvers } from './graphql/instagra
       // Merge resolvers from different sources
       resolvers: mergeResolvers([authResolvers, userResolvers, pageResolvers, sectionResolvers, igResolvers])
     }),
-    graphiql: true
+    graphiql: true,
+    path: '/graphql'
   })
 
   await app.register(mercuriusAuth, {
