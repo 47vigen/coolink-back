@@ -4,6 +4,7 @@ import Fastify from 'fastify'
 import cookie from 'fastify-cookie'
 import mercurius from 'mercurius'
 import mercuriusAuth from 'mercurius-auth'
+import CORS from 'fastify-cors'
 
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge'
@@ -23,6 +24,11 @@ import { schema as igSchema, resolvers as igResolvers } from './graphql/instagra
 // server starter function
 ;(async () => {
   const app = Fastify()
+
+  app.register(CORS, {
+    origin: 'http://localhost:3000',
+    credentials: true
+  })
 
   app.register(cookie, {
     secret: cookieSecret
