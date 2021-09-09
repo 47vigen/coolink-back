@@ -12,7 +12,8 @@ export const create = async (_, { userInput }, ctx) =>
       signRefresh(user.id)
         .then((tokenRefresh) => {
           ctx.reply.setCookie('refresh', tokenRefresh, {
-            httpOnly: true
+            httpOnly: true,
+            secure: true
           })
           return true
         })
