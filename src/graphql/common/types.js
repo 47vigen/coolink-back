@@ -14,6 +14,7 @@ export const typeSchema = gql`
   }
 
   type Page {
+    id: ID!
     pk: String!
     slug: String!
     title: String!
