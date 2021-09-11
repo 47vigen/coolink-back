@@ -19,10 +19,9 @@ const show = (_, { slug }, ctx) =>
     .then((page) => (page ? page.view() : null))
     .catch(throwError())
 
-const showById = (_, { id }, ctx) =>
-  Page.findById(id)
-    .then(notFound())
-    .then((page) => (page ? page.view() : null))
+const showMy = (_, args, { auth }) =>
+  Page.find({ user: auth.user })
+    .then((pages) => pages.map((pages) => pages.view()))
     .catch(throwError())
 
 const update = (_, { id, pageInput }, ctx) =>
@@ -44,7 +43,7 @@ const destroy = (_, { id }, ctx) =>
 export const resolvers = {
   Query: {
     showPage: show,
-    showPagebyId: showById
+    showMyPages: showMy
   },
 
   Mutation: {

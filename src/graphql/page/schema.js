@@ -3,7 +3,7 @@ import { gql } from 'mercurius-codegen'
 export const schema = gql`
   type Query {
     showPage(slug: String!): Page
-    showPagebyId(id: ID!): Page
+    showMyPages: [Page!]
   }
 
   type Mutation {
