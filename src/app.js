@@ -1,10 +1,14 @@
 'use strict'
+import path from 'path'
 
 import Fastify from 'fastify'
 import cookie from 'fastify-cookie'
 import mercurius from 'mercurius'
 import mercuriusAuth from 'mercurius-auth'
+import mercuriusUpload from 'mercurius-upload'
 import CORS from 'fastify-cors'
+import Static from 'fastify-static'
+import appRoot from 'app-root-path'
 
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge'
@@ -15,6 +19,7 @@ import { isAuth, refreshToken } from './services/jwt'
 import { IGConnect } from './services/instagram'
 
 import { typeSchema, inputSchema } from './graphql/common'
+import { schema as uploadSchema, resolvers as uploadResolvers } from './graphql/upload'
 import { schema as authSchema, resolvers as authResolvers } from './graphql/auth'
 import { schema as userSchema, resolvers as userResolvers } from './graphql/user'
 import { schema as pageSchema, resolvers as pageResolvers } from './graphql/page'
@@ -34,14 +39,21 @@ import { schema as igSchema, resolvers as igResolvers } from './graphql/instagra
     secret: cookieSecret
   })
 
+  app.register(Static, {
+    root: path.join(appRoot.toString(), 'uploads'),
+    prefix: '/public/'
+  })
+
   app.get('/refresh', refreshToken)
+
+  app.register(mercuriusUpload)
 
   app.register(mercurius, {
     schema: makeExecutableSchema({
       // Merge type definitions from different sources
-      typeDefs: mergeTypeDefs([typeSchema, inputSchema, authSchema, userSchema, pageSchema, sectionSchema, igSchema]),
+      typeDefs: mergeTypeDefs([typeSchema, uploadSchema, inputSchema, authSchema, userSchema, pageSchema, sectionSchema, igSchema]),
       // Merge resolvers from different sources
-      resolvers: mergeResolvers([authResolvers, userResolvers, pageResolvers, sectionResolvers, igResolvers])
+      resolvers: mergeResolvers([authResolvers, uploadResolvers, userResolvers, pageResolvers, sectionResolvers, igResolvers])
     }),
     graphiql: true,
     path: '/graphql'
