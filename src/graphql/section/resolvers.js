@@ -1,3 +1,5 @@
+import { validate } from 'uuid'
+
 import { authorOrAdmin, notFound, throwError } from '../../services/response'
 import Section from './model'
 
@@ -21,8 +23,14 @@ const update = (_, { id, sectionInput }, ctx) =>
     .then((section) => (section ? section.view(true) : null))
     .catch(throwError())
 
-const updateMany = (_, { sections }, ctx) =>
-  Promise.all(sections.map((section) => update(null, section, ctx)))
+const updateInsertMany = (_, { sections }, ctx) =>
+  Promise.all(
+    sections.map((section) => {
+      if (validate(section.id)) {
+        return create(null, section, ctx)
+      } else return update(null, section, ctx)
+    })
+  )
     .then(notFound())
     .catch(throwError())
 
@@ -41,7 +49,7 @@ export const resolvers = {
   Mutation: {
     createSection: create,
     updateSection: update,
-    updateManySections: updateMany,
+    updateInsertManySections: updateInsertMany,
     destroySection: destroy
   }
 }
