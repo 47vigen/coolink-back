@@ -54,6 +54,7 @@ export const typeSchema = gql`
   }
 
   type Section {
+    id: ID!
     page: Page
     user: User
     type: SectionType!
