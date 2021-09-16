@@ -29,6 +29,14 @@ const pageSchema = new Schema(
     },
     profilePic: {
       type: String
+    },
+    customize: {
+      color: {
+        type: String
+      },
+      backgroundImage: {
+        type: String
+      }
     }
   },
   {
@@ -50,7 +58,8 @@ pageSchema.methods = {
       slug: this.slug,
       title: this.title,
       subTitle: this.subTitle,
-      profilePic: this.profilePic
+      profilePic: this.profilePic,
+      customize: this.customize
     }
 
     return full
