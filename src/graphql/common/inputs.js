@@ -14,6 +14,12 @@ export const inputSchema = gql`
     title: String!
     subTitle: String
     profilePic: String
+    customize: CustomizeInput
+  }
+
+  input CustomizeInput {
+    color: String
+    backgroundImage: String
   }
 
   input SectionInput {
