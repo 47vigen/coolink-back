@@ -73,9 +73,11 @@ const sendFollowRequest = async (_, { pk }, ctx) =>
     .catch(IGThrowError())
 
 export const resolvers = {
+  Query: {
+    getPageFeeds
+  },
   Mutation: {
     getPageInfo,
-    getPageFeeds,
     sendFollowRequest
   }
 }

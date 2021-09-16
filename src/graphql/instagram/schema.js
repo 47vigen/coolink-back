@@ -1,9 +1,12 @@
 import { gql } from 'mercurius-codegen'
 
 export const schema = gql`
+  type Query {
+    getPageFeeds(pk: String!, next: String): PageFeeds
+  }
+
   type Mutation {
     getPageInfo(username: String!): PageInfo
-    getPageFeeds(pk: String!, firstFeed: String, next: String): PageFeeds
     sendFollowRequest(pk: String!): FollowRequest!
   }
 `
