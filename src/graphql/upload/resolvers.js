@@ -21,7 +21,7 @@ const streamToString = (stream) => {
   })
 }
 
-const uploadImage = async (_, { pk, image }) => {
+const uploadImage = async (_, { type, pk, image }) => {
   try {
     const uploadsDir = path.join(appRoot.toString(), 'uploads', pk)
     if (!existsSync(uploadsDir)) {
@@ -30,13 +30,16 @@ const uploadImage = async (_, { pk, image }) => {
     const { filename, createReadStream } = await image
     const mime = filename.split('.').reverse()[0]
     const newFileName = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 16)()
-    const uploadPath = `/uploads/${pk}/${newFileName}.${mime}`
+    const uploadPath = `/uploads/${pk}/${newFileName}-${type.toLowerCase()}.${mime}`
     const streamedImage = await streamToString(createReadStream())
-    await sharp(streamedImage)
-      .resize(250, 250)
-      .jpeg({ quality: 60 })
-      .toFile(`${appRoot}${uploadPath}`)
-      .catch((err) => console.log(err))
+    switch (type) {
+      case 'PROFILE':
+        await sharp(streamedImage).resize(250, 250).jpeg({ quality: 80 }).toFile(`${appRoot}${uploadPath}`)
+        break
+      case 'BACKGROUND':
+        await sharp(streamedImage).jpeg({ quality: 60 }).toFile(`${appRoot}${uploadPath}`)
+        break
+    }
     const publicUrl = uploadPath.replace('uploads', 'public')
     return publicUrl
   } catch (error) {
