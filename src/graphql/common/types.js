@@ -20,7 +20,13 @@ export const typeSchema = gql`
     title: String!
     subTitle: String
     profilePic: String
+    customize: Customize
     user: User
+  }
+
+  type Customize {
+    color: String
+    backgroundImage: String
   }
 
   type PageInfo {
