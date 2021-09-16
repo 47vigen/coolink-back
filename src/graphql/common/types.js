@@ -119,4 +119,9 @@ export const typeSchema = gql`
     IG_FEEDS_LINK
     IG_FEEDS_DOWNLOAD
   }
+
+  enum UploadType {
+    PROFILE
+    BACKGROUND
+  }
 `
