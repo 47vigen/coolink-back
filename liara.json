@@ -6,6 +6,10 @@
     {
       "name": "states",
       "mountTo": "states"
+    },
+    {
+      "name": "uploads",
+      "mountTo": "uploads"
     }
   ]
 }
