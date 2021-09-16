@@ -24,8 +24,6 @@ const streamToString = (stream) => {
 const uploadImage = async (_, { type, pk, image }) => {
   try {
     const uploadsDir = path.join(appRoot.toString(), 'uploads', pk)
-    const uploadsDir2 = path.join(appRoot.toString(), '..', 'uploads', pk)
-    console.log(uploadsDir, uploadsDir2)
     if (!existsSync(uploadsDir)) {
       mkdirSync(uploadsDir, { recursive: true })
     }
