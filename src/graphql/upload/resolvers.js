@@ -1,16 +1,10 @@
 import path from 'path'
-
-import appRoot from 'app-root-path'
-import { GraphQLUpload } from 'graphql-upload'
-// import { promisify } from 'bluebird'
-import sharp from 'sharp'
 import { existsSync, mkdirSync } from 'fs'
+
+import sharp from 'sharp'
+import appRoot from 'app-root-path'
 import { customAlphabet } from 'nanoid'
-
-// const fs = require('fs')
-// const stream = require('stream')
-
-// const pipeline = promisify(stream.pipeline)
+import { GraphQLUpload } from 'graphql-upload'
 
 const streamToString = (stream) => {
   const chunks = []
