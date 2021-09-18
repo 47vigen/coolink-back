@@ -2518,6 +2518,11 @@ decompress-response@^4.2.0:
   dependencies:
     mimic-response "^2.0.0"
 
+deep-cleaner@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/deep-cleaner/-/deep-cleaner-1.2.1.tgz#abc30c05bbf79a43abaf449da50e41d89ba47890"
+  integrity sha512-/WLL2O+GnNA/t9DRagOBT7ckJnfz5wV/8TqLo5bHykcBlXPH0+PeUzd0/s2MzOQ3IiRRIFpcWVe016rCqQIhMA==
+
 deep-extend@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.6.0.tgz#c4fa7c95404a17a9c3e8ca7e1537312b736330ac"
