@@ -1,5 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 import mongooseKeywords from 'mongoose-keywords'
+import deepCleaner from 'deep-cleaner'
+
 
 const pageSchema = new Schema(
   {
@@ -52,16 +54,17 @@ const pageSchema = new Schema(
 
 pageSchema.methods = {
   view(full) {
+    deepCleaner(this)
+
     const view = {
       id: this.id,
       pk: this.pk,
       slug: this.slug,
       title: this.title,
       subTitle: this.subTitle,
-      profilePic: this.profilePic,
-      customize: this.customize
+      avatar: this.avatar,
+      style: this.style
     }
-
     return full
       ? {
           ...view,

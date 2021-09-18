@@ -1,3 +1,4 @@
+import deepCleaner from 'deep-cleaner'
 import mongoose, { Schema } from 'mongoose'
 
 const types = ['links', 'text', 'contacts', 'messengers', 'locations', 'faq', 'igFeedsLink', 'igFeedsDownload']
@@ -117,31 +118,30 @@ const sectionSchema = new Schema(
 )
 
 sectionSchema.pre('save', function (next) {
-  const typeIndex = types.findIndex((type) => type === this.type)
-  minimalTypes.map((type, idx) => {
-    if (typeIndex === idx) return false
-    this[type] = null
-    return true
-  })
+  const filteredTypes = types.filter((type) => type !== this.type)
+  deepCleaner(this, filteredTypes)
   next()
 })
 
 sectionSchema.methods = {
   view(full) {
-    const typeIndex = types.findIndex((type) => type === this.type)
+    const filteredTypes = types.filter((type) => type !== this.type)
+    deepCleaner(this, filteredTypes)
+
     const view = {
       id: this.id,
       type: this.type,
       title: this.title,
       position: this.position,
-      [minimalTypes[typeIndex]]: this[minimalTypes[typeIndex]]
+      [this.type]: this[this.type]
     }
-
     return full
       ? {
           ...view,
           user: this.user.view(true),
-          page: this.page.view(true)
+          page: this.page.view(true),
+          createdAt: this.createdAt,
+          updatedAt: this.updatedAt
         }
       : view
   }
