@@ -1,7 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 
-const types = ['LINKS', 'TEXT', 'CONTACTS', 'MESSANGERS', 'LOCATIONS', 'FAQ', 'IG_FEEDS_LINK', 'IG_FEEDS_DOWNLOAD']
-const minimalTypes = ['links', 'text', 'contacts', 'messengers', 'locations', 'faq', 'igFeedsLink', 'igFeedsDownload']
+const types = ['links', 'text', 'contacts', 'messengers', 'locations', 'faq', 'igFeedsLink', 'igFeedsDownload']
 
 const sectionSchema = new Schema(
   {

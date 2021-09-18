@@ -24,13 +24,13 @@ const uploadImage = async (_, { type, pk, image }) => {
     const { filename, createReadStream } = await image
     const mime = filename.split('.').reverse()[0]
     const newFileName = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 16)()
-    const uploadPath = `/uploads/${pk}/${newFileName}-${type.toLowerCase()}.${mime}`
+    const uploadPath = `/uploads/${pk}/${newFileName}-${type}.${mime}`
     const streamedImage = await streamToString(createReadStream())
     switch (type) {
-      case 'PROFILE':
+      case 'profile':
         await sharp(streamedImage).resize(250, 250).jpeg({ quality: 80 }).toFile(`${appRoot}${uploadPath}`)
         break
-      case 'BACKGROUND':
+      default:
         await sharp(streamedImage).jpeg({ quality: 60 }).toFile(`${appRoot}${uploadPath}`)
         break
     }

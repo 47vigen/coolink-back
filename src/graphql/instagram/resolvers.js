@@ -29,13 +29,13 @@ const getPageFeeds = (_, { pk, next }, ctx) =>
             item?.carousel_media.map((media) => {
               if (media?.video_duration) {
                 slides?.push({
-                  type: 'VIDEO',
+                  type: 'video',
                   imageUrl: media?.image_versions2?.candidates[0]?.url,
                   videoUrl: media?.video_versions[0]?.url
                 })
               } else {
                 slides?.push({
-                  type: 'IMAGE',
+                  type: 'image',
                   imageUrl: media?.image_versions2?.candidates[0]?.url
                 })
               }

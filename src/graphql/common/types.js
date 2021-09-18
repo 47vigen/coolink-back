@@ -105,23 +105,24 @@ export const typeSchema = gql`
   }
 
   enum SlideType {
-    VIDEO
-    IMAGE
+    video
+    image
   }
 
   enum SectionType {
-    LINKS
-    TEXT
-    CONTACTS
-    MESSANGERS
-    LOCATIONS
-    FAQ
-    IG_FEEDS_LINK
-    IG_FEEDS_DOWNLOAD
+    links
+    text
+    contacts
+    messengers
+    locations
+    faq
+    igFeedsLink
+    igFeedsDownload
   }
 
   enum UploadType {
-    PROFILE
-    BACKGROUND
+    cover
+    profile
+    background
   }
 `
