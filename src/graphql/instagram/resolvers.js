@@ -42,13 +42,13 @@ const getPageFeeds = (_, { pk, next }, ctx) =>
             })
           } else if (item?.video_duration) {
             slides?.push({
-              type: 'VIDEO',
+              type: 'video',
               imageUrl: item?.image_versions2?.candidates[0]?.url,
               videoUrl: item?.video_versions[0]?.url
             })
           } else {
             slides?.push({
-              type: 'IMAGE',
+              type: 'image',
               imageUrl: item?.image_versions2?.candidates[0]?.url
             })
           }
