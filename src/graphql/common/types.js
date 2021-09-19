@@ -26,6 +26,7 @@ export const typeSchema = gql`
 
   type Avatar {
     url: String
+    position: PositionType
     rounded: RoundedType
   }
 
@@ -138,6 +139,11 @@ export const typeSchema = gql`
     default
     custom
     gradient
+  }
+
+  enum PositionType {
+    side
+    center
   }
 
   enum RoundedType {
