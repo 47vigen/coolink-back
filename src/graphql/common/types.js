@@ -104,7 +104,7 @@ export const typeSchema = gql`
     rounded: RoundedType
     animate: AnimateType
     color: String
-    background: String
+    second: String
     border: String
     borderStyle: BorderStyleType
     direction: DirectionType

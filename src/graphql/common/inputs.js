@@ -70,7 +70,7 @@ export const inputSchema = gql`
     rounded: String
     animate: String
     color: String
-    background: String
+    second: String
     border: String
     borderStyle: String
     direction: String
