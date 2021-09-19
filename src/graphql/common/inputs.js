@@ -52,21 +52,17 @@ export const inputSchema = gql`
     fax: String
   }
 
-  input MessengersInput {
-    telegram: String
-    whatsapp: String
-    twitter: String
-    youtube: String
-    linkedin: String
-  }
-
-  input LocationInput {
-    url: String!
-    title: String!
-  }
-
-  input FaqInput {
-    question: String!
-    answer: String!
+  input CustomizeInput {
+    type: CustomizeType
+    rounded: String
+    animate: String
+    color: String
+    background: String
+    border: String
+    borderStyle: String
+    direction: String
+    from: String
+    to: String
+    via: String
   }
 `

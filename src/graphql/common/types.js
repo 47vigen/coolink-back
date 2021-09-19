@@ -86,22 +86,18 @@ export const typeSchema = gql`
     fax: String
   }
 
-  type Messengers {
-    telegram: String
-    whatsapp: String
-    twitter: String
-    youtube: String
-    linkedin: String
-  }
-
-  type Location {
-    url: String!
-    title: String!
-  }
-
-  type Faq {
-    question: String!
-    answer: String!
+  type Customize {
+    type: CustomizeType
+    rounded: String
+    animate: String
+    color: String
+    background: String
+    border: String
+    borderStyle: String
+    direction: String
+    from: String
+    to: String
+    via: String
   }
 
   enum SlideType {
@@ -124,5 +120,53 @@ export const typeSchema = gql`
     cover
     profile
     background
+  }
+
+  enum CustomizeType {
+    default
+    custom
+    gradient
+  }
+
+  enum RoundedType {
+    sm
+    md
+    lg
+    xl
+    full
+  }
+
+  enum AnimateType {
+    ping
+    pulse
+    bounce
+    flash
+    rubberBand
+    shakeX
+    shakeY
+    headShake
+    swing
+    tada
+    wobble
+    jello
+    heartBeat
+  }
+
+  enum BorderStyleType {
+    solid
+    dashed
+    dotted
+    double
+  }
+
+  enum DirectionType {
+    t
+    l
+    b
+    r
+    tl
+    bl
+    tr
+    br
   }
 `
