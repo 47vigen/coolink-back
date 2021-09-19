@@ -34,6 +34,11 @@ const pageSchema = new Schema(
       url: {
         type: String
       },
+      position: {
+        type: String,
+        enum: ['side', 'center'],
+        default: 'side'
+      },
       rounded: customize.rounded
     },
     style: {
