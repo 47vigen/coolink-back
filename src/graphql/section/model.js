@@ -71,8 +71,6 @@ sectionSchema.pre('save', function (next) {
 
 sectionSchema.methods = {
   view(full) {
-    deepCleaner(this)
-
     const view = {
       id: this.id,
       type: this.type,
@@ -81,15 +79,17 @@ sectionSchema.methods = {
       customize: this.customize,
       items: this.items
     }
-    return full
-      ? {
-          ...view,
-          user: this.user.view(true),
-          page: this.page.view(true),
-          createdAt: this.createdAt,
-          updatedAt: this.updatedAt
-        }
-      : view
+    return deepCleaner(
+      full
+        ? {
+            ...view,
+            user: this.user.view(true),
+            page: this.page.view(true),
+            createdAt: this.createdAt,
+            updatedAt: this.updatedAt
+          }
+        : view
+    )
   }
 }
 

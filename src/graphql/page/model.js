@@ -67,8 +67,6 @@ const pageSchema = new Schema(
 
 pageSchema.methods = {
   view(full) {
-    deepCleaner(this)
-
     const view = {
       id: this.id,
       pk: this.pk,
@@ -78,14 +76,16 @@ pageSchema.methods = {
       avatar: this.avatar,
       style: this.style
     }
-    return full
-      ? {
-          ...view,
-          user: this.user.view(true),
-          createdAt: this.createdAt,
-          updatedAt: this.updatedAt
-        }
-      : view
+    return deepCleaner(
+      full
+        ? {
+            ...view,
+            user: this.user.view(true),
+            createdAt: this.createdAt,
+            updatedAt: this.updatedAt
+          }
+        : view
+    )
   }
 }
 
