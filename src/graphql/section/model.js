@@ -1,5 +1,6 @@
 import deepCleaner from 'deep-cleaner'
 import mongoose, { Schema } from 'mongoose'
+import { customize } from '../../utils/customize'
 
 const types = ['links', 'text', 'contacts', 'messengers', 'locations', 'faq', 'igFeedsLink', 'igFeedsDownload']
 
@@ -27,84 +28,30 @@ const sectionSchema = new Schema(
     title: {
       type: String
     },
-    links: [
+    items: [
       {
-        url: {
-          type: String,
-          required: true
+        type: {
+          type: String
         },
-        title: {
-          type: String,
-          required: true
-        }
+        key: {
+          type: String
+        },
+        value: {
+          type: String
+        },
+        options: [
+          {
+            key: {
+              type: String
+            },
+            value: {
+              type: String
+            }
+          }
+        ]
       }
     ],
-    text: {
-      type: String
-    },
-    contacts: {
-      mobile: {
-        type: String,
-        match: /^(09)\d{9}$/
-      },
-      phone: {
-        type: String,
-        match: /^(0)\d{10}$/
-      },
-      email: {
-        type: String,
-        match: /^\S+@\S+\.\S+$/
-      },
-      fax: {
-        type: String
-      }
-    },
-    messengers: {
-      telegram: {
-        type: String,
-        match: /^(?!\d)(?:(?![@#])[\w])+$/
-      },
-      whatsapp: {
-        type: String,
-        match: /^(09)\d{9}$/
-      },
-      twitter: {
-        type: String,
-        match: /^@?(\w){1,15}$/
-      },
-      youtube: {
-        type: String,
-        match: /(https?:\/\/)?(www\.)?youtube\.com\/(channel|user)\/[\w-]+/
-      },
-      linkedin: {
-        type: String,
-        match: /^https:\/\/[a-z]{2,3}\.linkedin\.com\/.*$/
-      }
-    },
-    locations: [
-      {
-        url: {
-          type: String,
-          required: true
-        },
-        title: {
-          type: String,
-          required: true
-        }
-      }
-    ],
-    faq: [
-      {
-        question: {
-          type: String,
-          required: true
-        },
-        answer: {
-          type: String,
-          required: true
-        }
-      }
-    ]
+    customize: [customize]
   },
   {
     timestamps: true,
@@ -118,22 +65,21 @@ const sectionSchema = new Schema(
 )
 
 sectionSchema.pre('save', function (next) {
-  const filteredTypes = types.filter((type) => type !== this.type)
-  deepCleaner(this, filteredTypes)
+  deepCleaner(this)
   next()
 })
 
 sectionSchema.methods = {
   view(full) {
-    const filteredTypes = types.filter((type) => type !== this.type)
-    deepCleaner(this, filteredTypes)
+    deepCleaner(this)
 
     const view = {
       id: this.id,
       type: this.type,
       title: this.title,
       position: this.position,
-      [this.type]: this[this.type]
+      customize: this.customize,
+      items: this.items
     }
     return full
       ? {
