@@ -24,11 +24,6 @@ export const typeSchema = gql`
     user: User
   }
 
-  type Customize {
-    color: String
-    backgroundImage: String
-  }
-
   type PageInfo {
     pk: ID!
     fullName: String!
@@ -84,13 +79,13 @@ export const typeSchema = gql`
 
   type Customize {
     type: CustomizeType
-    rounded: String
-    animate: String
+    rounded: RoundedType
+    animate: AnimateType
     color: String
     background: String
     border: String
-    borderStyle: String
-    direction: String
+    borderStyle: BorderStyleType
+    direction: DirectionType
     from: String
     to: String
     via: String
