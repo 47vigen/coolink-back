@@ -2,6 +2,7 @@ import mongoose, { Schema } from 'mongoose'
 import mongooseKeywords from 'mongoose-keywords'
 import deepCleaner from 'deep-cleaner'
 
+import { customize } from '../../utils/customize'
 
 const pageSchema = new Schema(
   {
@@ -29,15 +30,27 @@ const pageSchema = new Schema(
     subTitle: {
       type: String
     },
-    profilePic: {
-      type: String
-    },
-    customize: {
-      color: {
+    avatar: {
+      url: {
         type: String
       },
-      backgroundImage: {
-        type: String
+      rounded: customize.rounded
+    },
+    style: {
+      customize,
+      background: {
+        url: {
+          type: String
+        },
+        color: {
+          type: String
+        }
+      },
+      cover: {
+        url: {
+          type: String
+        },
+        customize
       }
     }
   },
