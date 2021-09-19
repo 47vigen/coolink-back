@@ -66,24 +66,20 @@ export const typeSchema = gql`
     type: SectionType!
     position: Int!
     title: String
-    links: [Link!]
-    text: String
-    contacts: Contacts
-    messengers: Messengers
-    locations: [Location!]
-    faq: [Faq!]
+    items: [Item!]
+    customize: [Customize!]
   }
 
-  type Link {
-    url: String!
-    title: String!
+  type Item {
+    type: String
+    key: String
+    value: String
+    option: [option!]
   }
 
-  type Contacts {
-    mobile: String
-    phone: String
-    email: String
-    fax: String
+  type option {
+    key: String
+    value: String
   }
 
   type Customize {

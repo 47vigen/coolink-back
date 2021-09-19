@@ -27,12 +27,8 @@ export const inputSchema = gql`
     type: SectionType!
     position: Int!
     title: String
-    links: [LinkInput!]
-    text: String
-    contacts: ContactsInput
-    messengers: MessengersInput
-    locations: [LocationInput!]
-    faq: [FaqInput!]
+    items: [ItemInput!]!
+    customize: [CustomizeInput]
   }
 
   input SectionManyInput {
@@ -40,16 +36,16 @@ export const inputSchema = gql`
     sectionInput: SectionInput!
   }
 
-  input LinkInput {
-    url: String!
-    title: String!
+  input ItemInput {
+    type: String!
+    key: String!
+    value: String!
+    option: [optionInput!]
   }
 
-  input ContactsInput {
-    mobile: String
-    phone: String
-    email: String
-    fax: String
+  input optionInput {
+    key: String!
+    value: String!
   }
 
   input CustomizeInput {
