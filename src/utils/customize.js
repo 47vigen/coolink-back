@@ -35,7 +35,7 @@ export const customize = {
   color: {
     type: String
   },
-  background: {
+  second: {
     type: String
   },
   border: {
