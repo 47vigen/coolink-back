@@ -13,13 +13,29 @@ export const inputSchema = gql`
     slug: String!
     title: String!
     subTitle: String
-    profilePic: String
-    customize: CustomizeInput
+    avatar: AvatarInput
+    style: StyleInput
   }
 
-  input CustomizeInput {
+  input AvatarInput {
+    url: String
+    rounded: RoundedType
+  }
+
+  input StyleInput {
+    customize: CustomizeInput
+    background: BackgroundInput
+    cover: CoverInput
+  }
+
+  input BackgroundInput {
+    url: String
     color: String
-    backgroundImage: String
+  }
+
+  input CoverInput {
+    url: String
+    customize: CustomizeInput
   }
 
   input SectionInput {

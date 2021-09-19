@@ -19,9 +19,30 @@ export const typeSchema = gql`
     slug: String!
     title: String!
     subTitle: String
-    profilePic: String
-    customize: Customize
+    avatar: Avatar
+    style: Style
     user: User
+  }
+
+  type Avatar {
+    url: String
+    rounded: RoundedType
+  }
+
+  type Style {
+    customize: Customize
+    background: Background
+    cover: Cover
+  }
+
+  type Background {
+    url: String
+    color: String
+  }
+
+  type Cover {
+    url: String
+    customize: Customize
   }
 
   type PageInfo {
