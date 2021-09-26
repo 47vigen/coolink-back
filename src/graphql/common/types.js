@@ -90,6 +90,7 @@ export const typeSchema = gql`
   }
 
   type Item {
+    id: ID!
     type: String
     key: String
     value: String
@@ -97,11 +98,13 @@ export const typeSchema = gql`
   }
 
   type option {
+    id: ID
     key: String
     value: String
   }
 
   type Customize {
+    id: ID
     type: CustomizeType
     rounded: RoundedType
     animate: AnimateType
