@@ -84,6 +84,8 @@ export const typeSchema = gql`
     position: Int!
     title: String
     items: [Item!]
+    arrangement: String
+    customized: Boolean!
     customize: [Customize!]
   }
 
