@@ -39,7 +39,7 @@ const pageSchema = new Schema(
         enum: ['side', 'center'],
         default: 'side'
       },
-      rounded: customize.rounded
+      customize
     },
     style: {
       customize,
