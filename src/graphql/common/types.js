@@ -93,7 +93,7 @@ export const typeSchema = gql`
     type: String
     key: String
     value: String
-    option: [option!]
+    options: [option!]
   }
 
   type option {
