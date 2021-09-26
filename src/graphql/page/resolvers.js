@@ -1,6 +1,10 @@
 import { throwError, notFound, authorOrAdmin } from '../../services/response/'
 import Page from './model'
 
+// Sections
+import { resolvers as sectionResolvers } from '../section'
+const showSection = sectionResolvers.Query.showSection
+
 const create = (_, { pageInput }, { auth }) =>
   Page.create({ ...pageInput, user: auth.user })
     .then((page) => page.view(true))
@@ -13,10 +17,17 @@ const create = (_, { pageInput }, { auth }) =>
       }
     })
 
-const show = (_, { slug }, ctx) =>
+const showWithSections = (_, { slug }, ctx) =>
   Page.findOne({ slug })
     .then(notFound())
     .then((page) => (page ? page.view() : null))
+    .then((page) => {
+      if (page?.id) {
+        return showSection(_, { page: page.id }, ctx)
+          .then((sections) => ({ page, sections }))
+          .catch(throwError())
+      } else return null
+    })
     .catch(throwError())
 
 const showMy = (_, args, { auth }) =>
@@ -42,7 +53,7 @@ const destroy = (_, { id }, ctx) =>
 
 export const resolvers = {
   Query: {
-    showPage: show,
+    showPageWithSections: showWithSections,
     showMyPages: showMy
   },
 
