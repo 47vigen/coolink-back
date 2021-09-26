@@ -31,7 +31,7 @@ import { schema as igSchema, resolvers as igResolvers } from './graphql/instagra
   const app = Fastify()
 
   app.register(CORS, {
-    origin: ['http://localhost:3000', 'https://coolink.ir'],
+    origin: ['http://localhost:3000', 'https://coolink.ir', 'https://colk.ir'],
     credentials: true
   })
 
