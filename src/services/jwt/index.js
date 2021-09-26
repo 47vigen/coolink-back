@@ -28,7 +28,7 @@ export const isAuth = async (context) => {
     return user
   } catch (err) {
     if (err instanceof JsonWebTokenError) {
-      throw new Error('token expired')
+      return null
     } else throw new Error(err)
   }
 }
