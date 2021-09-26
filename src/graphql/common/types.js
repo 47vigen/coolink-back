@@ -27,7 +27,7 @@ export const typeSchema = gql`
   type Avatar {
     url: String
     position: PositionType
-    rounded: RoundedType
+    customize: Customize
   }
 
   type Style {
