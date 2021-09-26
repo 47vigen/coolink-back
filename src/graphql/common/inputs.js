@@ -45,6 +45,8 @@ export const inputSchema = gql`
     position: Int!
     title: String
     items: [ItemInput!]!
+    arrangement: String
+    customized: Boolean
     customize: [CustomizeInput]
   }
 
