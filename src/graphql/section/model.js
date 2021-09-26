@@ -51,6 +51,13 @@ const sectionSchema = new Schema(
         ]
       }
     ],
+    arrangement: {
+      type: String
+    },
+    customized: {
+      type: Boolean,
+      default: false
+    },
     customize: [customize]
   },
   {
@@ -76,6 +83,7 @@ sectionSchema.methods = {
       type: this.type,
       title: this.title,
       position: this.position,
+      customized: this.customized,
       customize: this.customize,
       items: this.items
     }
