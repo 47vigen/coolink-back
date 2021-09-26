@@ -56,10 +56,10 @@ export const inputSchema = gql`
   }
 
   input ItemInput {
-    type: String!
-    key: String!
-    value: String!
-    option: [optionInput!]
+    type: String
+    key: String
+    value: String
+    options: [optionInput!]
   }
 
   input optionInput {
