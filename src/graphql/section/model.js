@@ -1,4 +1,3 @@
-import deepCleaner from 'deep-cleaner'
 import mongoose, { Schema } from 'mongoose'
 import { customize } from '../../utils/customize'
 
@@ -71,11 +70,6 @@ const sectionSchema = new Schema(
   }
 )
 
-sectionSchema.pre('save', function (next) {
-  deepCleaner(this)
-  next()
-})
-
 sectionSchema.methods = {
   view(full) {
     const view = {
@@ -87,17 +81,15 @@ sectionSchema.methods = {
       customize: this.customize,
       items: this.items
     }
-    return deepCleaner(
-      full
-        ? {
-            ...view,
-            user: this.user.view(true),
-            page: this.page.view(true),
-            createdAt: this.createdAt,
-            updatedAt: this.updatedAt
-          }
-        : view
-    )
+    return full
+      ? {
+          ...view,
+          user: this.user.view(true),
+          page: this.page.view(true),
+          createdAt: this.createdAt,
+          updatedAt: this.updatedAt
+        }
+      : view
   }
 }
 
