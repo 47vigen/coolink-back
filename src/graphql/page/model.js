@@ -1,6 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
 import mongooseKeywords from 'mongoose-keywords'
-import deepCleaner from 'deep-cleaner'
 
 import { customize } from '../../utils/customize'
 
@@ -81,16 +80,14 @@ pageSchema.methods = {
       avatar: this.avatar,
       style: this.style
     }
-    return deepCleaner(
-      full
-        ? {
-            ...view,
-            user: this.user.view(true),
-            createdAt: this.createdAt,
-            updatedAt: this.updatedAt
-          }
-        : view
-    )
+    return full
+      ? {
+          ...view,
+          user: this.user.view(true),
+          createdAt: this.createdAt,
+          updatedAt: this.updatedAt
+        }
+      : view
   }
 }
 
