@@ -115,6 +115,11 @@ export const typeSchema = gql`
     via: String
   }
 
+  type PageWithSections {
+    page: Page
+    sections: [Section!]
+  }
+
   enum SlideType {
     video
     image
