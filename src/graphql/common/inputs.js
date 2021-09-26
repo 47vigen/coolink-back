@@ -20,7 +20,7 @@ export const inputSchema = gql`
   input AvatarInput {
     url: String
     position: PositionType
-    rounded: RoundedType
+    customize: CustomizeInput
   }
 
   input StyleInput {
