@@ -2,7 +2,7 @@ import { gql } from 'mercurius-codegen'
 
 export const schema = gql`
   type Query {
-    showPage(slug: String!): Page
+    showPageWithSections(slug: String!): PageWithSections
     showMyPages: [Page!]
   }
 
