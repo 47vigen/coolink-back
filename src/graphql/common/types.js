@@ -124,7 +124,7 @@ export const typeSchema = gql`
     links
     text
     contacts
-    messengers
+    services
     locations
     faq
     igFeedsLink
