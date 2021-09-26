@@ -31,7 +31,7 @@ const uploadImage = async (_, { type, pk, image }) => {
         await sharp(streamedImage).resize(250, 250).jpeg({ quality: 80 }).toFile(`${appRoot}${uploadPath}`)
         break
       default:
-        await sharp(streamedImage).jpeg({ quality: 60 }).toFile(`${appRoot}${uploadPath}`)
+        await sharp(streamedImage).resize(500, null).jpeg({ quality: 60 }).toFile(`${appRoot}${uploadPath}`)
         break
     }
     const publicUrl = uploadPath.replace('uploads', 'public')
