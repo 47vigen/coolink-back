@@ -2,7 +2,7 @@ import deepCleaner from 'deep-cleaner'
 import mongoose, { Schema } from 'mongoose'
 import { customize } from '../../utils/customize'
 
-const types = ['links', 'text', 'contacts', 'messengers', 'locations', 'faq', 'igFeedsLink', 'igFeedsDownload']
+const types = ['links', 'text', 'contacts', 'services', 'locations', 'faq', 'igFeedsLink', 'igFeedsDownload']
 
 const sectionSchema = new Schema(
   {
