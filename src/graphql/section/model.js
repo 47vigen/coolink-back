@@ -77,6 +77,7 @@ sectionSchema.methods = {
       type: this.type,
       title: this.title,
       position: this.position,
+      arrangement: this.arrangement,
       customized: this.customized,
       customize: this.customize,
       items: this.items
