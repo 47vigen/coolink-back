@@ -29,7 +29,7 @@ export const isAuth = async (context) => {
     const { id } = await verify(token)
     const user = await User.findById(id)
 
-    return user
+    return user?.view(true)
   } catch (err) {
     if (err instanceof JsonWebTokenError) {
       return null
