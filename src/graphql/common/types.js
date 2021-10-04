@@ -11,6 +11,7 @@ export const typeSchema = gql`
     name: String
     picture: String
     email: String!
+    role: Role
   }
 
   type Page {
