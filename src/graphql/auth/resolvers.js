@@ -25,7 +25,13 @@ const confirmEmail = (_, { token }, ctx) =>
   verifyEmail(token)
     .then(({ id }) => User.findById(id))
     .then(notFound())
-    .then((user) => (user ? Object.assign(user, { role: 'USER_CONFIRMED' }).save() : null))
+    .then((user) => {
+      if (user?.role === 'USER') {
+        return Object.assign(user, { role: 'USER_CONFIRMED' }).save()
+      } else {
+        throw new Error('User email confirmed!')
+      }
+    })
     .then((user) =>
       signRefresh(user.id)
         .then((tokenRefresh) => {
