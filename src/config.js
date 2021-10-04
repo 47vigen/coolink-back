@@ -26,11 +26,19 @@ const config = {
     masterKey: requireProcessEnv('MASTER_KEY'),
     jwtSecret: requireProcessEnv('JWT_SECRET'),
     jwtRefreshSecret: requireProcessEnv('JWT_REFRESH_SECRET'),
+    jwtEmailSecret: requireProcessEnv('JWT_EMAIL_SECRET'),
     cookieSecret: requireProcessEnv('COOKIE_SECRET'),
     instagram: {
       enable: requireProcessEnv('IG_ENABLE') === '1' || false,
       botUsername: requireProcessEnv('IG_BOT_USERNAME'),
       botPassword: requireProcessEnv('IG_BOT_PASSWORD')
+    },
+    email: {
+      host: requireProcessEnv('EMAIL_HOST'),
+      port: requireProcessEnv('EMAIL_PORT'),
+      user: requireProcessEnv('EMAIL_USER'),
+      password: requireProcessEnv('EMAIL_PASSWORD'),
+      from: requireProcessEnv('EMAIL_FROM')
     },
     mongo: {
       options: {
