@@ -7,7 +7,7 @@ import { resolvers as authResolvers } from '../auth/resolvers'
 const sendConfirmEmail = authResolvers.Mutation.sendConfirmEmail
 
 export const showMe = (_, object, { auth }) => {
-  return auth?.user
+  return auth?.user?.view(true)
 }
 
 export const create = async (_, { userInput }, ctx) =>
