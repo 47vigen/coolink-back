@@ -47,7 +47,13 @@ const confirmEmail = (_, { token }, ctx) =>
 
 const sendConfirmEmail = (_, object, { auth }) =>
   signEmail(auth?.user?.id)
-    .then((token) => sendMail(auth?.user?.email, 'ایمیل خود را تایید کنید', `https://coolink.ir/confirm/${token}`))
+    .then((token) => {
+      if (auth?.user?.role === 'USER') {
+        return sendMail(auth?.user?.email, 'ایمیل خود را تایید کنید', `https://coolink.ir/confirm/${token}`)
+      } else {
+        throw new Error('User email confirmed!')
+      }
+    })
     .then(() => true)
     .catch(() => throwError())
 
