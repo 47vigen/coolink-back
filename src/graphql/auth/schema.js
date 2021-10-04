@@ -5,11 +5,14 @@ export const schema = gql`
 
   enum Role {
     ADMIN
+    USER_CONFIRMED
     USER
     UNKNOWN
   }
 
   type Mutation {
     login(userInput: UserInput!): WithToken
+    confirmEmail(token: String!): WithToken
+    sendConfirmEmail: Boolean @auth(requires: USER)
   }
 `
