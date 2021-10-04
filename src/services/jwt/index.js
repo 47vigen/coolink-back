@@ -1,6 +1,6 @@
-import jwt, { JsonWebTokenError } from 'jsonwebtoken'
 import Promise from 'bluebird'
-import { jwtSecret, jwtRefreshSecret } from '../../config'
+import jwt, { JsonWebTokenError } from 'jsonwebtoken'
+import { jwtSecret, jwtRefreshSecret, jwtEmailSecret } from '../../config'
 import User from '../../graphql/user/model'
 
 const jwtSign = Promise.promisify(jwt.sign)
@@ -10,11 +10,15 @@ export const sign = (id, options, method = jwtSign) => method({ id }, jwtSecret,
 
 export const signRefresh = (id, options, method = jwtSign) => method({ id }, jwtRefreshSecret, { expiresIn: '7d', ...options })
 
+export const signEmail = (id, options, method = jwtSign) => method({ id }, jwtEmailSecret, { expiresIn: '10m', ...options })
+
 export const signSync = (id, options) => sign(id, options, jwt.sign)
 
 export const verify = (token) => jwtVerify(token, jwtSecret)
 
 export const verifyRefresh = (token) => jwtVerify(token, jwtRefreshSecret)
+
+export const verifyEmail = (token) => jwtVerify(token, jwtEmailSecret)
 
 export const isAuth = async (context) => {
   // eslint-disable-next-line no-useless-catch
