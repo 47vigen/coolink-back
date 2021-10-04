@@ -2,7 +2,11 @@ import User from './model'
 import { sign, signRefresh } from '../../services/jwt'
 import { authorOrAdmin, notFound, throwError } from '../../services/response'
 
-export const showMe = (parent, object, { auth }) => {
+// Auth
+import { resolvers as authResolvers } from '../auth/resolvers'
+const sendConfirmEmail = authResolvers.Mutation.sendConfirmEmail
+
+export const showMe = (_, object, { auth }) => {
   return auth?.user
 }
 
@@ -17,7 +21,11 @@ export const create = async (_, { userInput }, ctx) =>
           })
           return true
         })
-        .then(() => sign(user.id).then((token) => ({ token, user: user.view(true) })))
+        .then(() =>
+          sign(user.id)
+            .then((token) => ({ token, user: user.view(true) }))
+            .then((withToken) => sendConfirmEmail(null, null, { auth: { user: withToken.user } }).then(() => withToken))
+        )
     )
     .catch((err) => {
       if (err.name === 'MongoError' && err.code === 11000) {
