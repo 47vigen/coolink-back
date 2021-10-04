@@ -4,7 +4,7 @@ import { authorOrAdmin, notFound, throwError } from '../../services/response'
 import Section from './model'
 
 const create = (_, { sectionInput }, { auth }) =>
-  Section.create({ ...sectionInput, user: auth.user.id })
+  Section.create({ ...sectionInput, user: auth.user })
     .then((section) => section.view())
     .then(notFound())
     .catch(throwError())

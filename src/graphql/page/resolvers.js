@@ -6,7 +6,7 @@ import { resolvers as sectionResolvers } from '../section'
 const showSection = sectionResolvers.Query.showSection
 
 const create = (_, { pageInput }, { auth }) =>
-  Page.create({ ...pageInput, user: auth.user.id })
+  Page.create({ ...pageInput, user: auth.user })
     .then((page) => page.view(true))
     .then(notFound())
     .catch((err) => {
@@ -31,7 +31,7 @@ const showWithSections = (_, { slug }, ctx) =>
     .catch(throwError())
 
 const showMy = (_, args, { auth }) =>
-  Page.find({ user: auth.user.id })
+  Page.find({ user: auth.user })
     .then((pages) => pages.map((pages) => pages.view()))
     .catch(throwError())
 
