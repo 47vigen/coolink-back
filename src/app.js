@@ -17,6 +17,7 @@ import { ip, env, mongo, port, cookieSecret, instagram } from './config'
 import mongoose from './services/mongoose'
 import { isAuth, refreshToken } from './services/jwt'
 import { IGConnect } from './services/instagram'
+import User from './graphql/user/model'
 
 import { typeSchema, inputSchema } from './graphql/common'
 import { schema as uploadSchema, resolvers as uploadResolvers } from './graphql/upload'
@@ -61,7 +62,9 @@ import { schema as igSchema, resolvers as igResolvers } from './graphql/instagra
 
   await app.register(mercuriusAuth, {
     async applyPolicy(authDirectiveAST, parent, args, context, info) {
-      return authDirectiveAST.arguments[0].value.value === context.auth.identity
+      const userRolesIdx = User.roles?.findIndex((role) => role === context.auth.identity)
+      const userRoles = User.roles.filter((_, idx) => idx <= userRolesIdx)
+      return userRoles.includes(authDirectiveAST.arguments[0].value?.value)
     },
     authDirective: 'auth'
   })
