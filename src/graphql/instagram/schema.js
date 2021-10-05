@@ -6,7 +6,7 @@ export const schema = gql`
   }
 
   type Mutation {
-    getPageInfo(username: String!): PageInfo
-    sendFollowRequest(pk: String!): FollowRequest!
+    getPageInfo(username: String!): PageInfo @auth(requires: USER_CONFIRMED)
+    sendFollowRequest(pk: String!): FollowRequest! @auth(requires: USER_CONFIRMED)
   }
 `

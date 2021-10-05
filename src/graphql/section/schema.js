@@ -6,9 +6,9 @@ export const schema = gql`
   }
 
   type Mutation {
-    createSection(sectionInput: SectionInput!): Section
-    updateSection(id: ID!, sectionInput: SectionInput!): Section
-    updateInsertManySections(sections: [SectionManyInput!]): [Section!]
-    destroySection(id: ID!): Section
+    createSection(sectionInput: SectionInput!): Section @auth(requires: USER_CONFIRMED)
+    updateSection(id: ID!, sectionInput: SectionInput!): Section @auth(requires: USER_CONFIRMED)
+    updateInsertManySections(sections: [SectionManyInput!]): [Section!] @auth(requires: USER_CONFIRMED)
+    destroySection(id: ID!): Section @auth(requires: USER_CONFIRMED)
   }
 `

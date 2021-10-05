@@ -7,7 +7,7 @@ export const schema = gql`
 
   type Mutation {
     createUser(userInput: UserInput!): WithToken
-    updateUser(id: ID!, userInput: UserInput!): User
+    updateUser(id: ID!, userInput: UserInput!): User @auth(requires: USER)
     destroyUser(id: ID!): User
   }
 `

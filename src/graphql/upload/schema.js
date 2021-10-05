@@ -4,6 +4,6 @@ export const schema = gql`
   scalar Upload
 
   type Mutation {
-    uploadImage(type: UploadType!, pk: String!, image: Upload!): String!
+    uploadImage(type: UploadType!, pk: String!, image: Upload!): String! @auth(requires: USER_CONFIRMED)
   }
 `
