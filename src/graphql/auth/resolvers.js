@@ -1,6 +1,6 @@
 import { sign, signRefresh, signEmail, verifyEmail } from '../../services/jwt'
 import { notFound, throwError } from '../../services/response'
-import { sendMail } from '../../services/email'
+import { sendConfirmMail } from '../../services/email'
 import User from '../user/model'
 
 const login = (_, { userInput: { email, password } }, ctx) =>
@@ -49,7 +49,7 @@ const sendConfirmEmail = (_, object, { auth }) =>
   signEmail(auth?.user?.id)
     .then((token) => {
       if (auth?.user?.role === 'USER') {
-        return sendMail(auth?.user?.email, 'ایمیل خود را تایید کنید', `https://coolink.ir/confirm/${token}`)
+        return sendConfirmMail(auth?.user?.email, token)
       } else {
         throw new Error('User email confirmed!')
       }
