@@ -32,6 +32,7 @@ const showWithSections = (_, { slug }, ctx) =>
 
 const showMy = (_, args, { auth }) =>
   Page.find({ user: auth.user })
+    .sort({ createdAt: -1 })
     .then((pages) => pages.map((pages) => pages.view()))
     .catch(throwError())
 
