@@ -59,10 +59,10 @@ export const inputSchema = gql`
     type: String
     key: String
     value: String
-    options: [optionInput!]
+    options: [OptionInput!]
   }
 
-  input optionInput {
+  input OptionInput {
     key: String!
     value: String!
   }
