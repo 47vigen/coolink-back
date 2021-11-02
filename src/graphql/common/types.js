@@ -95,11 +95,11 @@ export const typeSchema = gql`
     type: String
     key: String
     value: String
-    options: [option!]
+    options: [Option!]
   }
 
-  type option {
-    id: ID
+  type Option {
+    id: ID!
     key: String
     value: String
   }
@@ -125,10 +125,10 @@ export const typeSchema = gql`
   }
 
   type Statistic {
-    id: ID
-    page: ID
+    id: ID!
+    page: ID!
     ids: [ID!]
-    event: String
+    event: String!
     agent: String
     refer: String
   }
