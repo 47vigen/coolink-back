@@ -130,7 +130,7 @@ export const typeSchema = gql`
     ids: [ID!]
     event: String!
     agent: String
-    refer: String
+    referrer: String
   }
 
   enum SlideType {

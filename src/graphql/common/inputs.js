@@ -86,6 +86,6 @@ export const inputSchema = gql`
     ids: [ID!]
     event: String!
     agent: String
-    refer: String
+    referrer: String
   }
 `

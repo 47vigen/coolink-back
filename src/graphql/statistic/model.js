@@ -19,7 +19,7 @@ const statisticSchema = new Schema(
     agent: {
       type: String
     },
-    refer: {
+    referrer: {
       type: String
     }
   },
@@ -41,7 +41,7 @@ statisticSchema.methods = {
       event: this.event,
       ids: this.ids,
       agent: this.agent,
-      refer: this.refer,
+      referrer: this.referrer,
       createdAt: this.createdAt
     }
     return full
