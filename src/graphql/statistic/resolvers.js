@@ -1,8 +1,8 @@
 import { throwError, notFound } from '../../services/response'
 import Statistic from './model'
 
-const create = (_, { StatisticInput }, { auth }) =>
-  Statistic.create(StatisticInput)
+const create = (_, { statisticInput }, { auth }) =>
+  Statistic.create(statisticInput)
     .then((statistic) => statistic.view())
     .then(notFound())
     .catch(throwError())
