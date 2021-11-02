@@ -87,5 +87,6 @@ export const inputSchema = gql`
     event: String!
     agent: String
     referrer: String
+    pathname: String
   }
 `
