@@ -124,6 +124,15 @@ export const typeSchema = gql`
     sections: [Section!]
   }
 
+  type Statistic {
+    id: ID
+    page: ID
+    ids: [ID!]
+    event: String
+    agent: String
+    refer: String
+  }
+
   enum SlideType {
     video
     image

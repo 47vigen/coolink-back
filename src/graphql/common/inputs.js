@@ -80,4 +80,12 @@ export const inputSchema = gql`
     to: String
     via: String
   }
+
+  input StatisticInput {
+    page: ID!
+    ids: [ID!]
+    event: String!
+    agent: String
+    refer: String
+  }
 `
