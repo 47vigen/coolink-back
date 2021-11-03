@@ -1,8 +1,10 @@
-import { throwError, notFound } from '../../services/response'
-import Statistic from './model'
+import requestIp from 'request-ip'
 
-const create = (_, { statisticInput }, { auth }) =>
-  Statistic.create(statisticInput)
+import Statistic from './model'
+import { throwError, notFound } from '../../services/response'
+
+const create = (_, { statisticInput }, { reply }) =>
+  Statistic.create({ ...statisticInput, ip: requestIp.getClientIp(reply.request) })
     .then((statistic) => statistic.view())
     .then(notFound())
     .catch(throwError())

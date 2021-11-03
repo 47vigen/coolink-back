@@ -24,6 +24,9 @@ const statisticSchema = new Schema(
     },
     pathname: {
       type: String
+    },
+    ip: {
+      type: String
     }
   },
   {
@@ -46,6 +49,7 @@ statisticSchema.methods = {
       agent: this.agent,
       referrer: this.referrer,
       pathname: this.pathname,
+      ip: this.ip,
       createdAt: this.createdAt
     }
     return full
