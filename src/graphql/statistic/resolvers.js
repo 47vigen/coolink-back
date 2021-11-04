@@ -10,7 +10,7 @@ const create = (_, { statisticInput }, { reply }) =>
     .catch(throwError())
 
 const showByPage = (_, { page }, ctx) =>
-  Statistic.find({ page }, null, { sort: { position: 1 } })
+  Statistic.find({ page }, null, { sort: { createdAt: -1 } })
     .then((statistics) => statistics.map((statistic) => statistic.view()))
     .catch(throwError())
 

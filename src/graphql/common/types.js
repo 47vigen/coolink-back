@@ -133,6 +133,7 @@ export const typeSchema = gql`
     referrer: String
     pathname: String
     ip: String
+    createdAt: String
   }
 
   enum SlideType {
