@@ -1,5 +1,11 @@
-import { throwError, notFound, authorOrAdmin } from '../../services/response/'
 import Page from './model'
+import { throwError, notFound, authorOrAdmin } from '../../services/response/'
+
+// Statistics
+import { showLast30Days as showStatisticsLast30Days } from '../statistic/resolvers'
+
+// Utils
+import toppest from '../../utils/toppest'
 
 // Sections
 import { resolvers as sectionResolvers } from '../section'
@@ -52,10 +58,29 @@ const destroy = (_, { id }, ctx) =>
     .then((page) => (page ? page.remove() : null))
     .catch(throwError())
 
+const showTrendTemplates = (_, args, ctx) =>
+  showStatisticsLast30Days()
+    .then((statistics) => (statistics.length ? toppest(statistics, 'page', true) : null))
+    .then((tops) => tops.map((top) => top.key)?.slice(0, 10))
+    .then(notFound())
+    .then((pages) => Promise.all(pages.map((page) => Page.findById(page))))
+    .then((pages) => pages.map((pages) => pages.template()))
+    .catch(throwError())
+
+const showLastTemplates = (_, args, ctx) =>
+  Page.find()
+    .sort({ updatedAt: -1 })
+    .limit(10)
+    .then(notFound())
+    .then((pages) => pages.map((pages) => pages.template()))
+    .catch(throwError())
+
 export const resolvers = {
   Query: {
     showPageWithSections: showWithSections,
-    showMyPages: showMy
+    showMyPages: showMy,
+    showTrendTemplates,
+    showLastTemplates
   },
 
   Mutation: {
