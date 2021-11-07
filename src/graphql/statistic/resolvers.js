@@ -14,6 +14,8 @@ const showByPage = (_, { page }, ctx) =>
     .then((statistics) => statistics.map((statistic) => statistic.view()))
     .catch(throwError())
 
+export const showLast30Days = () => Statistic.find({ createdAt: { $gte: new Date(Date.now() - 60 * 60 * 24 * 30 * 1000) } }).catch(throwError())
+
 export const resolvers = {
   Query: {
     showStatisticsByPage: showByPage
