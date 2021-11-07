@@ -4,6 +4,8 @@ export const schema = gql`
   type Query {
     showPageWithSections(slug: String!): PageWithSections
     showMyPages: [Page!] @auth(requires: USER)
+    showTrendTemplates: [Template!] @auth(requires: USER_CONFIRMED)
+    showLastTemplates: [Template!] @auth(requires: USER_CONFIRMED)
   }
 
   type Mutation {
