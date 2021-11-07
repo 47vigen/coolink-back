@@ -25,6 +25,13 @@ export const typeSchema = gql`
     user: User
   }
 
+  type Template {
+    id: ID!
+    slug: String!
+    title: String!
+    style: Style
+  }
+
   type Avatar {
     url: String
     position: PositionType
@@ -33,8 +40,19 @@ export const typeSchema = gql`
 
   type Style {
     customize: Customize
+    display: Display
+    titles: Titles
     background: Background
     cover: Cover
+  }
+
+  type Display {
+    font: FontType
+    direction: DirectionType
+  }
+
+  type Titles {
+    color: String
   }
 
   type Background {
@@ -134,6 +152,17 @@ export const typeSchema = gql`
     pathname: String
     ip: String
     createdAt: String
+  }
+
+  enum FontType {
+    dana
+    peyda
+    iransans
+  }
+
+  enum DirectionType {
+    rtl
+    ltr
   }
 
   enum SlideType {
