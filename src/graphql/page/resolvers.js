@@ -11,6 +11,11 @@ import toppest from '../../utils/toppest'
 import { resolvers as sectionResolvers } from '../section'
 const showSection = sectionResolvers.Query.showSection
 
+const isSlugExist = (_, { slug }, ctx) =>
+  Page.findOne({ slug })
+    .then((page) => !!page)
+    .catch(throwError())
+
 const create = (_, { pageInput }, { auth }) =>
   Page.create({ ...pageInput, user: auth.user })
     .then((page) => page.view(true))
@@ -77,6 +82,7 @@ const showLastTemplates = (_, args, ctx) =>
 
 export const resolvers = {
   Query: {
+    isSlugExist,
     showPageWithSections: showWithSections,
     showMyPages: showMy,
     showTrendTemplates,
