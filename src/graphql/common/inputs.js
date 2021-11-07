@@ -25,8 +25,19 @@ export const inputSchema = gql`
 
   input StyleInput {
     customize: CustomizeInput
+    display: DisplayInput
+    titles: TitlesInput
     background: BackgroundInput
     cover: CoverInput
+  }
+
+  input DisplayInput {
+    font: FontType
+    direction: DirectionType
+  }
+
+  input TitlesInput {
+    color: String
   }
 
   input BackgroundInput {
