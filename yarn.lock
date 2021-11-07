@@ -3105,6 +3105,11 @@ fast-safe-stringify@^2.0.8:
   resolved "https://registry.yarnpkg.com/fast-safe-stringify/-/fast-safe-stringify-2.0.8.tgz#dc2af48c46cf712b683e849b2bbd446b32de936f"
   integrity sha512-lXatBjf3WPjmWD6DpIZxkeSsCOwqI0maYMpgDlx8g4U2qi4lbjA9oH/HD2a87G+KfsUmo5WbJFmqBZlPxtptag==
 
+fast-sort@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/fast-sort/-/fast-sort-3.0.3.tgz#f3f61561ebf8625672f4b2c652816e92d6273158"
+  integrity sha512-8O5/zuAd0caOZ8ray+uCBLP2FQiShC0whpsAKrn9JcluJRyV/XopSO+u2hYwGf1g0VvpYbnD3ZM/Jqp07AEIhQ==
+
 fastify-cookie@^5.3.1:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/fastify-cookie/-/fastify-cookie-5.3.1.tgz#97b17f3f297b06ffc8e27fe7a0398aefa9df74f0"
