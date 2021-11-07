@@ -42,6 +42,23 @@ const pageSchema = new Schema(
     },
     style: {
       customize,
+      display: {
+        font: {
+          type: String,
+          enum: ['dana', 'peyda', 'iransans'],
+          default: 'dana'
+        },
+        direction: {
+          type: String,
+          enum: ['rtl', 'ltr'],
+          default: 'rtl'
+        }
+      },
+      titles: {
+        color: {
+          type: String
+        }
+      },
       background: {
         url: {
           type: String
@@ -88,6 +105,14 @@ pageSchema.methods = {
           updatedAt: this.updatedAt
         }
       : view
+  },
+  template() {
+    return {
+      id: this.id,
+      title: this.title,
+      slug: this.slug,
+      style: this.style
+    }
   }
 }
 
