@@ -29,6 +29,8 @@ export const typeSchema = gql`
     id: ID!
     slug: String!
     title: String!
+    subTitle: String
+    avatar: Avatar
     style: Style
   }
 

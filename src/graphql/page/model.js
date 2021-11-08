@@ -109,8 +109,10 @@ pageSchema.methods = {
   template() {
     return {
       id: this.id,
-      title: this.title,
       slug: this.slug,
+      title: this.title,
+      subTitle: this.subTitle,
+      avatar: this.avatar,
       style: this.style
     }
   }
