@@ -66,10 +66,12 @@ const destroy = (_, { id }, ctx) =>
 const showTrendTemplates = (_, args, ctx) =>
   showStatisticsLast30Days()
     .then((statistics) => (statistics.length ? toppest(statistics, 'page', true) : null))
-    .then((tops) => tops.map((top) => top.key)?.slice(0, 10))
+    .then((tops) => tops.map((top) => top.key))
     .then(notFound())
-    .then((pages) => Promise.all(pages.map((page) => Page.findById(page))))
-    .then((pages) => pages.map((pages) => pages.template()))
+    .then((pages) => Promise.all(pages.map(async (page) => await Page.findById(page))))
+    .then((pages) => pages.map((page) => page?.template()))
+    .then((pages) => pages.filter((page) => page?.id).slice(0, 10))
+    .then(notFound())
     .catch(throwError())
 
 const showLastTemplates = (_, args, ctx) =>
