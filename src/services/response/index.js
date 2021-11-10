@@ -14,7 +14,7 @@ export const authorOrAdmin = (ctx, userField) => (entity) => {
   const user = ctx.auth?.user
   if (entity) {
     const isAdmin = user.role === 'ADMIN'
-    const isAuthor = entity[userField] && entity[userField].equals(user.id)
+    const isAuthor = entity[userField] ? entity[userField].equals(user.id) : null
     if (isAuthor || isAdmin) {
       return entity
     }

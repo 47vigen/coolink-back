@@ -241,4 +241,9 @@ export const typeSchema = gql`
     tr
     br
   }
+
+  enum DaysType {
+    for7
+    for30
+  }
 `
