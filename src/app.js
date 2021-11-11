@@ -10,28 +10,21 @@ import CORS from 'fastify-cors'
 import Static from 'fastify-static'
 import appRoot from 'app-root-path'
 
-import { makeExecutableSchema } from '@graphql-tools/schema'
-import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge'
-
-import { ip, env, mongo, port, cookieSecret, instagram } from './config'
-import mongoose from './services/mongoose'
-import { isAuth, refreshToken } from './services/jwt'
-import { IGConnect } from './services/instagram'
+// Configs
 import User from './graphql/user/model'
+import { ip, env, mongo, port, cookieSecret, instagram } from './config'
 
-import { typeSchema, inputSchema } from './graphql/common'
-import { schema as uploadSchema, resolvers as uploadResolvers } from './graphql/upload'
-import { schema as authSchema, resolvers as authResolvers } from './graphql/auth'
-import { schema as userSchema, resolvers as userResolvers } from './graphql/user'
-import { schema as pageSchema, resolvers as pageResolvers } from './graphql/page'
-import { schema as sectionSchema, resolvers as sectionResolvers } from './graphql/section'
-import { schema as statisticSchema, resolvers as statisticResolvers } from './graphql/statistic'
-import { schema as igSchema, resolvers as igResolvers } from './graphql/instagram'
+// Services
+import mongoose from './services/mongoose'
+import { IGConnect } from './services/instagram'
+import { isAuth, refreshToken } from './services/jwt'
+
+// Graphql
+import { schema } from './graphql'
 
 // server starter function
 ;(async () => {
   const app = Fastify()
-
   app.register(CORS, {
     origin: ['http://localhost:3000', 'https://coolink.ir', 'https://colk.ir'],
     credentials: true
@@ -51,12 +44,7 @@ import { schema as igSchema, resolvers as igResolvers } from './graphql/instagra
   app.register(mercuriusUpload)
 
   app.register(mercurius, {
-    schema: makeExecutableSchema({
-      // Merge type definitions from different sources
-      typeDefs: mergeTypeDefs([typeSchema, uploadSchema, inputSchema, authSchema, userSchema, pageSchema, sectionSchema, statisticSchema, igSchema]),
-      // Merge resolvers from different sources
-      resolvers: mergeResolvers([authResolvers, uploadResolvers, userResolvers, pageResolvers, sectionResolvers, statisticResolvers, igResolvers])
-    }),
+    schema,
     graphiql: true,
     path: '/graphql'
   })
