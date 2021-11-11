@@ -1,6 +1,7 @@
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge'
 
+// Main
 import { types, inputs } from './common'
 import { typeDefs as uploadTypeDefs, resolvers as uploadResolvers } from './upload'
 import { typeDefs as authTypeDefs, resolvers as authResolvers } from './auth'
@@ -9,6 +10,9 @@ import { typeDefs as pageTypeDefs, resolvers as pageResolvers } from './page'
 import { typeDefs as sectionTypeDefs, resolvers as sectionResolvers } from './section'
 import { typeDefs as statisticTypeDefs, resolvers as statisticResolvers } from './statistic'
 import { typeDefs as igTypeDefs, resolvers as igResolvers } from './instagram'
+
+// Other services
+import { typeDefs as blogTypeDefs, resolvers as blogResolvers } from './blog'
 
 // Merge type definitions from different sources
 const typeDefs = mergeTypeDefs([
@@ -20,11 +24,21 @@ const typeDefs = mergeTypeDefs([
   pageTypeDefs,
   sectionTypeDefs,
   statisticTypeDefs,
-  igTypeDefs
+  igTypeDefs,
+  blogTypeDefs
 ])
 
 // Merge resolvers from different sources
-const resolvers = mergeResolvers([authResolvers, uploadResolvers, userResolvers, pageResolvers, sectionResolvers, statisticResolvers, igResolvers])
+const resolvers = mergeResolvers([
+  authResolvers,
+  uploadResolvers,
+  userResolvers,
+  pageResolvers,
+  sectionResolvers,
+  statisticResolvers,
+  igResolvers,
+  blogResolvers
+])
 
 // Make schema
 export default makeExecutableSchema({
