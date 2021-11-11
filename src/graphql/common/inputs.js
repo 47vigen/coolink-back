@@ -1,6 +1,6 @@
 import { gql } from 'mercurius-codegen'
 
-export const inputSchema = gql`
+export const inputs = gql`
   input UserInput {
     name: String
     picture: String

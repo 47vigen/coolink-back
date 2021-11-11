@@ -1,6 +1,6 @@
 import { gql } from 'mercurius-codegen'
 
-export const schema = gql`
+export const typeDefs = gql`
   directive @auth(requires: Role = ADMIN) on OBJECT | FIELD_DEFINITION
 
   enum Role {

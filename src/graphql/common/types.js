@@ -1,6 +1,6 @@
 import { gql } from 'mercurius-codegen'
 
-export const typeSchema = gql`
+export const types = gql`
   type WithToken {
     token: String!
     user: User

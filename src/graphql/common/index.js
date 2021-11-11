@@ -1,3 +1,3 @@
-import { typeSchema } from './types'
-import { inputSchema } from './inputs'
-export { typeSchema, inputSchema }
+import { types } from './types'
+import { inputs } from './inputs'
+export { types, inputs }

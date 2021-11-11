@@ -1,6 +1,6 @@
 import { gql } from 'mercurius-codegen'
 
-export const schema = gql`
+export const typeDefs = gql`
   type Query {
     getPageFeeds(pk: String!, next: String): PageFeeds
   }

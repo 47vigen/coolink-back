@@ -1,6 +1,6 @@
 import { gql } from 'mercurius-codegen'
 
-export const schema = gql`
+export const typeDefs = gql`
   type Query {
     showStatisticsByPage(page: String!, days: DaysType): [Statistic!] @auth(requires: USER_CONFIRMED)
   }

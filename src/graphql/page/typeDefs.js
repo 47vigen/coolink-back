@@ -1,6 +1,6 @@
 import { gql } from 'mercurius-codegen'
 
-export const schema = gql`
+export const typeDefs = gql`
   type Query {
     isSlugExist(slug: String!): Boolean! @auth(requires: USER_CONFIRMED)
     showPageWithSections(slug: String!): PageWithSections
