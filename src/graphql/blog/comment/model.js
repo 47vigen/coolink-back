@@ -46,11 +46,12 @@ const commentSchema = new Schema(
 
 commentSchema.methods = {
   view(full) {
+    this.populate('replies')
     const view = {
+      id: this.id,
       body: this.body,
       user: this.user.view(full),
-      replies: this.replies.map((reply) => reply.view(full)),
-      repliedTo: this.repliedTo.view(full),
+      replies: this.replies?.filter((reply) => reply?.status === 1)?.map((reply) => reply?.view(full)),
       createdAt: this.createdAt
     }
     return full
@@ -58,6 +59,7 @@ commentSchema.methods = {
           ...view,
           status: this.status,
           post: this.post.view(full),
+          repliedTo: this.repliedTo?.view(full) || null,
           updatedAt: this.updatedAt
         }
       : view
