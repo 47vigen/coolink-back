@@ -30,8 +30,16 @@ const uploadImage = async (_, { type, pk, image }) => {
       case 'profile':
         await sharp(streamedImage).resize(250, 250).jpeg({ quality: 80 }).toFile(`${appRoot}${uploadPath}`)
         break
-      default:
+      case 'cover':
         await sharp(streamedImage).resize(500, null).jpeg({ quality: 60 }).toFile(`${appRoot}${uploadPath}`)
+        break
+
+      case 'background':
+        await sharp(streamedImage).resize(500, null).jpeg({ quality: 60 }).toFile(`${appRoot}${uploadPath}`)
+        break
+
+      default:
+        await sharp(streamedImage).resize(800, null).jpeg({ quality: 80 }).toFile(`${appRoot}${uploadPath}`)
         break
     }
     const publicUrl = uploadPath.replace('uploads', 'public')

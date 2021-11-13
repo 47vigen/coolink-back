@@ -187,6 +187,8 @@ export const types = gql`
     cover
     profile
     background
+    post
+    content
   }
 
   enum CustomizeType {
