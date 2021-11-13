@@ -25,11 +25,13 @@ const uploadImage = async (_, { type, pk, image }) => {
     const mime = filename.split('.').reverse()[0]
     const newFileName = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 16)()
     const uploadPath = `/uploads/${pk}/${newFileName}-${type}.${mime}`
+
     const streamedImage = await streamToString(createReadStream())
     switch (type) {
       case 'profile':
         await sharp(streamedImage).resize(250, 250).jpeg({ quality: 80 }).toFile(`${appRoot}${uploadPath}`)
         break
+
       case 'cover':
         await sharp(streamedImage).resize(500, null).jpeg({ quality: 60 }).toFile(`${appRoot}${uploadPath}`)
         break
@@ -42,6 +44,7 @@ const uploadImage = async (_, { type, pk, image }) => {
         await sharp(streamedImage).resize(800, null).jpeg({ quality: 80 }).toFile(`${appRoot}${uploadPath}`)
         break
     }
+
     const publicUrl = uploadPath.replace('uploads', 'public')
     return publicUrl
   } catch (error) {
