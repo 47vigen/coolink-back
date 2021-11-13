@@ -41,7 +41,7 @@ const uploadImage = async (_, { type, pk, image }) => {
         break
 
       default:
-        await sharp(streamedImage).resize(800, null).jpeg({ quality: 80 }).toFile(`${appRoot}${uploadPath}`)
+        await sharp(streamedImage).resize(1000, null).jpeg({ quality: 80 }).toFile(`${appRoot}${uploadPath}`)
         break
     }
 
