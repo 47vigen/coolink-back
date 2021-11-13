@@ -3,12 +3,14 @@ import Post from './model'
 
 const create = (_, { postInput }, { auth }) =>
   Post.create({ ...postInput, user: auth.user })
+    .populate('user')
     .then((post) => post.view(true))
     .then(notFound())
     .catch(throwError())
 
 const show = (_, args, ctx) =>
   Post.find(null, null, { sort: { createdAt: -1 } })
+    .populate('user')
     .then((posts) => posts.map((post) => post.view()))
     .catch(throwError())
 
