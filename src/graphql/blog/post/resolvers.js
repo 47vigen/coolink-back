@@ -3,7 +3,6 @@ import Post from './model'
 
 const create = (_, { postInput }, { auth }) =>
   Post.create({ ...postInput, user: auth.user })
-    .populate('user')
     .then((post) => post.view(true))
     .then(notFound())
     .catch(throwError())
