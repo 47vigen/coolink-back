@@ -11,6 +11,7 @@ export const types = gql`
     title: String!
     subTitle: String
     attachment: String
+    createdAt: String!
   }
 
   type Comment {
@@ -18,5 +19,6 @@ export const types = gql`
     user: User!
     body: String!
     replies: [Comment!]
+    createdAt: String!
   }
 `
