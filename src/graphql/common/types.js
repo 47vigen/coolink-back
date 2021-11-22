@@ -156,6 +156,13 @@ export const types = gql`
     createdAt: String
   }
 
+  type Xml {
+    loc: String!
+    priority: Float!
+    lastmod: String!
+    changefreq: String!
+  }
+
   enum FontType {
     dana
     peyda

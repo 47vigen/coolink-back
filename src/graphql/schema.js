@@ -10,6 +10,7 @@ import { typeDefs as pageTypeDefs, resolvers as pageResolvers } from './page'
 import { typeDefs as sectionTypeDefs, resolvers as sectionResolvers } from './section'
 import { typeDefs as statisticTypeDefs, resolvers as statisticResolvers } from './statistic'
 import { typeDefs as igTypeDefs, resolvers as igResolvers } from './instagram'
+import { typeDefs as xmlTypeDefs, resolvers as xmlResolvers } from './xml'
 
 // Other services
 import { typeDefs as blogTypeDefs, resolvers as blogResolvers } from './blog'
@@ -25,6 +26,7 @@ const typeDefs = mergeTypeDefs([
   sectionTypeDefs,
   statisticTypeDefs,
   igTypeDefs,
+  xmlTypeDefs,
   blogTypeDefs
 ])
 
@@ -37,6 +39,7 @@ const resolvers = mergeResolvers([
   sectionResolvers,
   statisticResolvers,
   igResolvers,
+  xmlResolvers,
   blogResolvers
 ])
 
