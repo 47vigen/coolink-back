@@ -12,7 +12,7 @@ import appRoot from 'app-root-path'
 
 // Configs
 import User from './graphql/user/model'
-import { server, ip, env, mongo, port, cookieSecret, instagram } from './config'
+import { apiRoot, server, ip, env, mongo, port, cookieSecret, instagram } from './config'
 
 // Services
 import mongoose from './services/mongoose'
@@ -36,17 +36,17 @@ import { schema } from './graphql'
 
   app.register(Static, {
     root: path.join(appRoot.toString(), 'uploads'),
-    prefix: '/public/'
+    prefix: apiRoot + '/public/'
   })
 
-  app.get('/refresh', refreshToken)
+  app.get(apiRoot + '/refresh', refreshToken)
 
   app.register(mercuriusUpload)
 
   app.register(mercurius, {
     schema,
     graphiql: true,
-    path: '/graphql'
+    path: apiRoot + '/'
   })
 
   await app.register(mercuriusAuth, {
