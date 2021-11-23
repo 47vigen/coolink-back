@@ -5,7 +5,7 @@
   "main": "src",
   "scripts": {
     "start": "node build/index.js",
-    "build": "rm -rf ./node_modules && rm -i -f package-lock.json && yarn install && babel src -d build",
+    "build": "rm -rf ./node_modules && rm -rf ./build && yarn install && babel src -d build && pm2 start yarn --name 'back' -- start",
     "dev": "nodemon . --ignore states/ig.json",
     "prod": "cross-env NODE_ENV=production nodemon -r dotenv-safe/config .",
     "lint": "eslint src"

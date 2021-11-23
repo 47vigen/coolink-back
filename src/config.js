@@ -18,6 +18,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const config = {
   all: {
+    server: process.env.SERVER || 'http://localhost:3000',
     env: process.env.NODE_ENV || 'development',
     root: path.join(__dirname, '..'),
     port: process.env.PORT || 9000,

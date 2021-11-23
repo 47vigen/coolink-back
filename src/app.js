@@ -12,7 +12,7 @@ import appRoot from 'app-root-path'
 
 // Configs
 import User from './graphql/user/model'
-import { ip, env, mongo, port, cookieSecret, instagram } from './config'
+import { server, ip, env, mongo, port, cookieSecret, instagram } from './config'
 
 // Services
 import mongoose from './services/mongoose'
@@ -26,7 +26,7 @@ import { schema } from './graphql'
 ;(async () => {
   const app = Fastify()
   app.register(CORS, {
-    origin: ['http://localhost:3000', 'https://coolink.ir', 'https://colk.ir'],
+    origin: [server, 'https://coolink.ir', 'https://colk.ir'],
     credentials: true
   })
 
