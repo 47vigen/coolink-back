@@ -100,4 +100,11 @@ export const inputs = gql`
     referrer: String
     pathname: String
   }
+
+  input ShortLinkInput {
+    page: ID
+    slug: String!
+    isDeep: Boolean!
+    destination: String!
+  }
 `

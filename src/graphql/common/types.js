@@ -156,6 +156,14 @@ export const types = gql`
     createdAt: String
   }
 
+  type ShortLink {
+    id: ID!
+    slug: String!
+    isDeep: Boolean!
+    destination: String!
+    page: Page
+  }
+
   type Xml {
     loc: String!
     priority: Float!
