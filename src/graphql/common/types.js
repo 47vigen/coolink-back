@@ -85,7 +85,8 @@ export const types = gql`
   }
 
   type Feed {
-    id: ID!
+    id: ID
+    pk: String!
     createdAt: String!
     caption: String
     slides: [Slide]!
