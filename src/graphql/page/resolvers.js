@@ -1,20 +1,12 @@
-import Page from './model'
+import { Page } from '.'
+import { Section } from '../section'
 import { throwError, notFound, authorOrAdmin } from '../../services/response/'
 
 // Statistics
-import { showLast30Days as showStatisticsLast30Days } from '../statistic/resolvers'
+import { show30Days as show30DaysStatistics } from '../statistic/resolvers'
 
 // Utils
 import toppest from '../../utils/toppest'
-
-// Sections
-import { resolvers as sectionResolvers } from '../section'
-const showSection = sectionResolvers.Query.showSection
-
-const isSlugExist = (_, { slug }, ctx) =>
-  Page.findOne({ slug })
-    .then((page) => !!page)
-    .catch(throwError())
 
 const create = (_, { pageInput }, { auth }) =>
   Page.create({ ...pageInput, user: auth.user })
@@ -27,25 +19,6 @@ const create = (_, { pageInput }, { auth }) =>
         throw new Error(err)
       }
     })
-
-const showWithSections = (_, { slug }, ctx) =>
-  Page.findOne({ slug })
-    .then(notFound())
-    .then((page) => (page ? page.view() : null))
-    .then((page) => {
-      if (page?.id) {
-        return showSection(_, { page: page.id }, ctx)
-          .then((sections) => ({ page, sections }))
-          .catch(throwError())
-      } else return null
-    })
-    .catch(throwError())
-
-const showMy = (_, args, { auth }) =>
-  Page.find({ user: auth.user })
-    .sort({ createdAt: -1 })
-    .then((pages) => pages.map((pages) => pages.view()))
-    .catch(throwError())
 
 const update = (_, { id, pageInput }, ctx) =>
   Page.findById(id)
@@ -63,8 +36,19 @@ const destroy = (_, { id }, ctx) =>
     .then((page) => (page ? page.remove() : null))
     .catch(throwError())
 
+const isSlugExist = (_, { slug }, ctx) =>
+  Page.findOne({ slug })
+    .then((page) => !!page)
+    .catch(throwError())
+
+const showMy = (_, args, { auth }) =>
+  Page.find({ user: auth.user })
+    .sort({ createdAt: -1 })
+    .then((pages) => pages.map((page) => page.view()))
+    .catch(throwError())
+
 const showTrendTemplates = (_, args, ctx) =>
-  showStatisticsLast30Days()
+  show30DaysStatistics()
     .then((statistics) => (statistics.length ? toppest(statistics, 'page', true) : null))
     .then((tops) => tops.map((top) => top.key))
     .then(notFound())
@@ -82,13 +66,24 @@ const showLastTemplates = (_, args, ctx) =>
     .then((pages) => pages.map((pages) => pages.template()))
     .catch(throwError())
 
+const showWithSectionsBySlug = (_, { slug }, ctx) =>
+  Page.findOne({ slug })
+    .then(notFound())
+    .then((page) =>
+      Section.find({ page })
+        .then(notFound())
+        .then((sections) => ({ page: page.view(), sections: sections.map((section) => section.view()) }))
+        .catch(throwError())
+    )
+    .catch(throwError())
+
 export const resolvers = {
   Query: {
-    isSlugExist,
-    showPageWithSections: showWithSections,
-    showMyPages: showMy,
+    showLastTemplates,
     showTrendTemplates,
-    showLastTemplates
+    showMyPages: showMy,
+    isPageSlugExist: isSlugExist,
+    showPageWithSectionsBySlug: showWithSectionsBySlug
   },
 
   Mutation: {

@@ -1,5 +1,5 @@
-import Page from '../page/model'
-import Post from '../blog/post/model'
+import { Page } from '../page'
+import { Post } from '../blog/post'
 import { notFound, throwError } from '../../services/response'
 
 const show = (_, args, ctx) =>

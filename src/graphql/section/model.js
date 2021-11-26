@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 import { customize } from '../../utils/customize'
 
-const types = ['links', 'text', 'contacts', 'services', 'locations', 'faq', 'igFeedsLink', 'igFeedsDownload']
+const types = ['links', 'text', 'contacts', 'services', 'locations', 'faq', 'feeds']
 
 const sectionSchema = new Schema(
   {

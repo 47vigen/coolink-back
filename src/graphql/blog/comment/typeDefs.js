@@ -2,7 +2,7 @@ import { gql } from 'mercurius-codegen'
 
 export const typeDefs = gql`
   type Query {
-    showComments(post: ID!): [Comment!]
+    showCommentsByPost(post: ID!): [Comment!]
   }
 
   type Mutation {

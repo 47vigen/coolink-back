@@ -1,16 +1,15 @@
-import User from './model'
+import { User } from '.'
 import { sign, signRefresh } from '../../services/jwt'
 import { authorOrAdmin, notFound, throwError } from '../../services/response'
 
 // Auth
-import { resolvers as authResolvers } from '../auth/resolvers'
-const sendConfirmEmail = authResolvers.Mutation.sendConfirmEmail
+import { sendConfirmEmail } from '../auth/resolvers'
 
-export const showMe = (_, object, { auth }) => {
+const showMe = (_, object, { auth }) => {
   return auth?.user?.view(true)
 }
 
-export const create = async (_, { userInput }, ctx) =>
+const create = async (_, { userInput }, ctx) =>
   User.create(userInput)
     .then((user) =>
       signRefresh(user.id)

@@ -1,8 +1,7 @@
-import { throwError, notFound, authorOrAdmin } from '../../services/response'
+import { Statistic } from '.'
+import { Page } from '../page'
 import requestIp from 'request-ip'
-
-import Statistic from './model'
-import Page from '../page/model'
+import { throwError, notFound, authorOrAdmin } from '../../services/response'
 
 const create = (_, { statisticInput }, { reply }) =>
   Statistic.create({ ...statisticInput, ip: requestIp.getClientIp(reply.request) })
@@ -27,7 +26,7 @@ const showByPage = (_, { page, days = 'for7' }, ctx) =>
     })
     .catch(throwError())
 
-export const showLast30Days = () => Statistic.find({ createdAt: { $gte: new Date(Date.now() - 60 * 60 * 24 * 30 * 1000) } }).catch(throwError())
+export const show30Days = () => Statistic.find({ createdAt: { $gte: new Date(Date.now() - 60 * 60 * 24 * 30 * 1000) } }).catch(throwError())
 
 export const resolvers = {
   Query: {

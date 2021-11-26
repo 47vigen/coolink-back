@@ -144,6 +144,18 @@ export const types = gql`
     sections: [Section!]
   }
 
+  type PageWithFeedsSection {
+    page: Page
+    feeds: [Feed!]
+    section: Section
+  }
+
+  type FeedWithPageSection {
+    page: Page
+    feed: Feed
+    section: Section
+  }
+
   type Statistic {
     id: ID!
     page: ID!
@@ -194,8 +206,7 @@ export const types = gql`
     services
     locations
     faq
-    igFeedsLink
-    igFeedsDownload
+    feeds
   }
 
   enum UploadType {

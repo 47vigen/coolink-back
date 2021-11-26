@@ -3,7 +3,7 @@ import { gql } from 'mercurius-codegen'
 export const typeDefs = gql`
   type Query {
     showPosts: [Post!]
-    showOnePost(slug: String!): Post
+    showPostBySlug(slug: String!): Post
   }
 
   type Mutation {

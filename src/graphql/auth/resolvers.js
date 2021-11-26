@@ -1,7 +1,7 @@
-import { sign, signRefresh, signEmail, verifyEmail } from '../../services/jwt'
-import { notFound, throwError } from '../../services/response'
+import { User } from '../user'
 import { sendConfirmMail } from '../../services/email'
-import User from '../user/model'
+import { notFound, throwError } from '../../services/response'
+import { sign, signRefresh, signEmail, verifyEmail } from '../../services/jwt'
 
 const login = (_, { userInput: { email, password } }, ctx) =>
   User.findOne({ email })
@@ -45,7 +45,7 @@ const confirmEmail = (_, { token }, ctx) =>
     )
     .catch(throwError())
 
-const sendConfirmEmail = (_, object, { auth }) =>
+export const sendConfirmEmail = (_, object, { auth }) =>
   signEmail(auth?.user?.id)
     .then((token) => {
       if (auth?.user?.role === 'USER') {

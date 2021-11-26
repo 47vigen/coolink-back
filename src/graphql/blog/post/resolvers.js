@@ -1,23 +1,9 @@
+import { Post } from '.'
 import { authorOrAdmin, notFound, throwError } from '../../../services/response'
-import Post from './model'
 
 const create = (_, { postInput }, { auth }) =>
   Post.create({ ...postInput, user: auth.user })
     .then((post) => post.view(true))
-    .then(notFound())
-    .catch(throwError())
-
-const show = (_, args, ctx) =>
-  Post.find(null, null, { sort: { createdAt: -1 } })
-    .populate('user')
-    .then((posts) => posts.map((post) => post.view()))
-    .catch(throwError())
-
-const showOne = (_, { slug }, ctx) =>
-  Post.findOne({ slug })
-    .populate('user')
-    .then((post) => (post ? Object.assign(post, { views: post.views + 1 }).save() : null))
-    .then((post) => (post ? post.view() : null))
     .then(notFound())
     .catch(throwError())
 
@@ -37,10 +23,24 @@ const destroy = (_, { id }, ctx) =>
     .then((post) => (post ? post.remove() : null))
     .catch(throwError())
 
+const show = (_, args, ctx) =>
+  Post.find(null, null, { sort: { createdAt: -1 } })
+    .populate('user')
+    .then((posts) => posts.map((post) => post.view()))
+    .catch(throwError())
+
+const showBySlug = (_, { slug }, ctx) =>
+  Post.findOne({ slug })
+    .populate('user')
+    .then((post) => (post ? Object.assign(post, { views: post.views + 1 }).save() : null))
+    .then((post) => (post ? post.view() : null))
+    .then(notFound())
+    .catch(throwError())
+
 export const resolvers = {
   Query: {
     showPosts: show,
-    showOnePost: showOne
+    showPostBySlug: showBySlug
   },
 
   Mutation: {

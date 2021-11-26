@@ -1,3 +1,5 @@
+import Section from './model'
 import { resolvers } from './resolvers'
 import { typeDefs } from './typeDefs'
-export { resolvers, typeDefs }
+
+export { Section, resolvers, typeDefs }

@@ -1,3 +1,5 @@
-import { resolvers } from './resolvers'
+import Statistic from './model'
 import { typeDefs } from './typeDefs'
-export { resolvers, typeDefs }
+import { resolvers } from './resolvers'
+
+export { Statistic, resolvers, typeDefs }

@@ -1,18 +1,11 @@
+import { Comment } from '.'
 import { authorOrAdmin, notFound, throwError } from '../../../services/response'
-import Comment from './model'
 
 const create = (_, { commentInput }, { auth }) =>
   Comment.create({ ...commentInput, user: auth.user })
     .then((comment) => comment.view())
     .then(notFound())
     .then((comment) => (commentInput.repliedTo ? addReplies(commentInput.repliedTo, comment) : comment))
-    .catch(throwError())
-
-const show = (_, { post }, ctx) =>
-  Comment.find({ post, status: 1, repliedTo: null }, null, { sort: { createdAt: -1 } })
-    .populate('user')
-    .populate('replies')
-    .then((comments) => comments.map((comment) => comment.view()))
     .catch(throwError())
 
 const addReplies = (repliedTo, newComment) =>
@@ -42,9 +35,16 @@ const destroy = (_, { id }, ctx) =>
     .then((comment) => (comment ? comment.remove() : null))
     .catch(throwError())
 
+const showByPost = (_, { post }, ctx) =>
+  Comment.find({ post, status: 1, repliedTo: null }, null, { sort: { createdAt: -1 } })
+    .populate('user')
+    .populate('replies')
+    .then((comments) => comments.map((comment) => comment.view()))
+    .catch(throwError())
+
 export const resolvers = {
   Query: {
-    showComments: show
+    showCommentsByPost: showByPost
   },
 
   Mutation: {
