@@ -21,6 +21,18 @@ const login = (_, { userInput: { email, password } }, ctx) =>
     )
     .catch(throwError())
 
+const logout = (_, args, ctx) => {
+  try {
+    ctx.reply.clearCookie('refresh', {
+      httpOnly: true,
+      secure: true
+    })
+    return true
+  } catch (error) {
+    throwError()(error)
+  }
+}
+
 const confirmEmail = (_, { token }, ctx) =>
   verifyEmail(token)
     .then(({ id }) => User.findById(id))
@@ -45,7 +57,7 @@ const confirmEmail = (_, { token }, ctx) =>
     )
     .catch(throwError())
 
-export const sendConfirmEmail = (_, object, { auth }) =>
+export const sendConfirmEmail = (_, args, { auth }) =>
   signEmail(auth?.user?.id)
     .then((token) => {
       if (auth?.user?.role === 'USER') {
@@ -60,6 +72,7 @@ export const sendConfirmEmail = (_, object, { auth }) =>
 export const resolvers = {
   Mutation: {
     login,
+    logout,
     confirmEmail,
     sendConfirmEmail
   }
