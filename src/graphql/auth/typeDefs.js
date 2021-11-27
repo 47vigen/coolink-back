@@ -11,7 +11,7 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    logout(): Boolean!
+    logout: Boolean!
     login(userInput: UserInput!): WithToken
     confirmEmail(token: String!): WithToken
     sendConfirmEmail: Boolean @auth(requires: USER)
