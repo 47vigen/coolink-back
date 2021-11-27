@@ -2,7 +2,7 @@ import { throwError } from '../../../services/response'
 import { IGServiceEnable, IGThrowError } from '../../../services/instagram'
 import { saveMany as saveFeedsMany, showPageWithFeedsSectionsByPage } from '../feed/resolvers'
 
-const showInfo = (_, { username }, ctx) =>
+const showInfoByUsername = (_, { username }, ctx) =>
   IGServiceEnable()
     .then((IG) =>
       IG.user
@@ -17,7 +17,7 @@ const showInfo = (_, { username }, ctx) =>
     )
     .catch(IGThrowError())
 
-const showFeeds = (_, { page, next }, ctx) =>
+const showFeedsByPage = (_, { page, next }, ctx) =>
   IGServiceEnable()
     .then((IG) =>
       showPageWithFeedsSectionsByPage(_, { page }, ctx)
@@ -87,9 +87,9 @@ export const sendFollowRequest = async (_, { pk }, ctx) =>
 
 export const resolvers = {
   Query: {
-    showIGFeeds: showFeeds
+    showIGFeedsByPage: showFeedsByPage
   },
   Mutation: {
-    showIGInfo: showInfo
+    showIGInfoByUsername: showInfoByUsername
   }
 }

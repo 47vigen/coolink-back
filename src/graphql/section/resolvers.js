@@ -37,8 +37,6 @@ const destroy = (_, { id }, ctx) =>
 
 export const resolvers = {
   Mutation: {
-    createSection: create,
-    updateSection: update,
     destroySection: destroy,
     saveManySections: saveMany
   }
