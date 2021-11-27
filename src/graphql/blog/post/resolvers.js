@@ -10,15 +10,15 @@ const create = (_, { postInput }, { auth }) =>
 const update = (_, { id, postInput }, ctx) =>
   Post.findById(id)
     .populate('user')
-    .then(notFound())
+    .then(notFound('post not found'))
     .then(authorOrAdmin(ctx, 'user'))
-    .then((post) => (post ? Object.assign(post, postInput).save() : null))
-    .then((post) => (post ? post.view(true) : null))
+    .then((post) => Object.assign(post, postInput).save())
+    .then((post) => post.view(true))
     .catch(throwError())
 
 const destroy = (_, { id }, ctx) =>
   Post.findById(id)
-    .then(notFound())
+    .then(notFound('post not found'))
     .then(authorOrAdmin(ctx, 'user'))
     .then((post) => (post ? post.remove() : null))
     .catch(throwError())
@@ -26,15 +26,15 @@ const destroy = (_, { id }, ctx) =>
 const show = (_, args, ctx) =>
   Post.find(null, null, { sort: { createdAt: -1 } })
     .populate('user')
-    .then((posts) => posts.map((post) => post.view()))
+    .then((posts) => posts?.map((post) => post.view()))
     .catch(throwError())
 
 const showBySlug = (_, { slug }, ctx) =>
   Post.findOne({ slug })
     .populate('user')
-    .then((post) => (post ? Object.assign(post, { views: post.views + 1 }).save() : null))
-    .then((post) => (post ? post.view() : null))
-    .then(notFound())
+    .then(notFound('post not found'))
+    .then((post) => Object.assign(post, { views: post.views + 1 }).save())
+    .then((post) => post.view())
     .catch(throwError())
 
 export const resolvers = {

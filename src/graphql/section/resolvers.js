@@ -11,10 +11,10 @@ const create = (_, { sectionInput }, { auth }) =>
 const update = (_, { id, sectionInput }, ctx) =>
   Section.findById(id)
     .populate('user')
-    .then(notFound())
+    .then(notFound('section not found'))
     .then(authorOrAdmin(ctx, 'user'))
-    .then((section) => (section ? Object.assign(section, sectionInput).save() : null))
-    .then((section) => (section ? section.view(true) : null))
+    .then((section) => Object.assign(section, sectionInput).save())
+    .then((section) => section.view(true))
     .catch(throwError())
 
 const saveMany = (_, { sections }, ctx) =>
@@ -24,15 +24,13 @@ const saveMany = (_, { sections }, ctx) =>
         return create(null, section, ctx)
       } else return update(null, section, ctx)
     })
-  )
-    .then(notFound())
-    .catch(throwError())
+  ).catch(throwError())
 
 const destroy = (_, { id }, ctx) =>
   Section.findById(id)
-    .then(notFound())
+    .then(notFound('section not found'))
     .then(authorOrAdmin(ctx, 'user'))
-    .then((section) => (section ? section.remove() : null))
+    .then((section) => section.remove())
     .catch(throwError())
 
 export const resolvers = {

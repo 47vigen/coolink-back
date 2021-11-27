@@ -36,17 +36,17 @@ const create = async (_, { userInput }, ctx) =>
 
 const update = (_, { id, userInput }, ctx) =>
   User.findById(id === 'me' ? ctx.auth?.user?.id : id)
-    .then(notFound())
+    .then(notFound('user not found'))
     .then(authorOrAdmin(ctx, 'id'))
-    .then((user) => (user ? Object.assign(user, userInput).save() : null))
-    .then((user) => (user ? user.view(true) : null))
+    .then((user) => Object.assign(user, userInput).save())
+    .then((user) => user.view(true))
     .catch(throwError())
 
 const destroy = (_, { id }, ctx) =>
   User.findById(id === 'me' ? ctx.auth?.user?.id : id)
-    .then(notFound())
+    .then(notFound('user not found'))
     .then(authorOrAdmin(ctx, 'id'))
-    .then((user) => (user ? user.remove() : null))
+    .then((user) => user.remove())
     .catch(throwError())
 
 export const resolvers = {

@@ -24,7 +24,7 @@ const login = (_, { userInput: { email, password } }, ctx) =>
 const confirmEmail = (_, { token }, ctx) =>
   verifyEmail(token)
     .then(({ id }) => User.findById(id))
-    .then(notFound())
+    .then(notFound('user not found'))
     .then((user) => {
       if (user?.role === 'USER') {
         return Object.assign(user, { role: 'USER_CONFIRMED' }).save()

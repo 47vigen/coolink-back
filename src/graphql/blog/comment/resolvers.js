@@ -10,36 +10,37 @@ const create = (_, { commentInput }, { auth }) =>
 
 const addReplies = (repliedTo, newComment) =>
   Comment.findById(repliedTo)
+    .then(notFound('comment not found'))
     .then((comment) => {
       if (comment?.repliedTo) {
         throw new Error('you cant reply this comment')
       } else return comment
     })
-    .then((comment) => (comment ? Object.assign(comment, { replies: [...comment.replies, newComment.id] }).save() : null))
+    .then((comment) => Object.assign(comment, { replies: [...comment.replies, newComment.id] }).save())
     .then(() => newComment)
     .catch(throwError())
 
 const update = (_, { id, commentInput }, ctx) =>
   Comment.findById(id)
     .populate('user')
-    .then(notFound())
+    .then(notFound('comment not found'))
     .then(authorOrAdmin(ctx, 'user'))
-    .then((comment) => (comment ? Object.assign(comment, commentInput).save() : null))
-    .then((comment) => (comment ? comment.view(true) : null))
+    .then((comment) => Object.assign(comment, commentInput).save())
+    .then((comment) => comment.view(true))
     .catch(throwError())
 
 const destroy = (_, { id }, ctx) =>
   Comment.findById(id)
-    .then(notFound())
+    .then(notFound('comment not found'))
     .then(authorOrAdmin(ctx, 'user'))
-    .then((comment) => (comment ? comment.remove() : null))
+    .then((comment) => comment.remove())
     .catch(throwError())
 
 const showByPost = (_, { post }, ctx) =>
   Comment.find({ post, status: 1, repliedTo: null }, null, { sort: { createdAt: -1 } })
     .populate('user')
     .populate('replies')
-    .then((comments) => comments.map((comment) => comment.view()))
+    .then((comments) => comments?.map((comment) => comment.view()))
     .catch(throwError())
 
 export const resolvers = {

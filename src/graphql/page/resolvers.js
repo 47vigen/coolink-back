@@ -23,17 +23,17 @@ const create = (_, { pageInput }, { auth }) =>
 const update = (_, { id, pageInput }, ctx) =>
   Page.findById(id)
     .populate('user')
-    .then(notFound())
+    .then(notFound('page not found'))
     .then(authorOrAdmin(ctx, 'user'))
-    .then((page) => (page ? Object.assign(page, pageInput).save() : null))
-    .then((page) => (page ? page.view(true) : null))
+    .then((page) => Object.assign(page, pageInput).save())
+    .then((page) => page.view(true))
     .catch(throwError())
 
 const destroy = (_, { id }, ctx) =>
   Page.findById(id)
-    .then(notFound())
+    .then(notFound('page not found'))
     .then(authorOrAdmin(ctx, 'user'))
-    .then((page) => (page ? page.remove() : null))
+    .then((page) => page.remove())
     .catch(throwError())
 
 const isSlugExist = (_, { slug }, ctx) =>
@@ -44,14 +44,14 @@ const isSlugExist = (_, { slug }, ctx) =>
 const showMy = (_, args, { auth }) =>
   Page.find({ user: auth.user })
     .sort({ createdAt: -1 })
-    .then((pages) => pages.map((page) => page.view()))
+    .then((pages) => pages?.map((page) => page.view()))
     .catch(throwError())
 
 const showTrendTemplates = (_, args, ctx) =>
   show30DaysStatistics()
-    .then((statistics) => (statistics.length ? toppest(statistics, 'page', true) : null))
-    .then((tops) => tops.map((top) => top.key))
-    .then(notFound())
+    .then((statistics) => (statistics?.length ? toppest(statistics, 'page', true) : null))
+    .then((tops) => tops?.map((top) => top.key))
+    .then(notFound('toppest pages not found'))
     .then((pages) => Promise.all(pages.map(async (page) => await Page.findById(page))))
     .then((pages) => pages.map((page) => page?.template()))
     .then((pages) => pages.filter((page) => page?.id).slice(0, 10))
@@ -63,16 +63,16 @@ const showLastTemplates = (_, args, ctx) =>
     .sort({ updatedAt: -1 })
     .limit(10)
     .then(notFound())
-    .then((pages) => pages.map((pages) => pages.template()))
+    .then((pages) => pages?.map((pages) => pages.template()))
     .catch(throwError())
 
 const showWithSectionsBySlug = (_, { slug }, ctx) =>
   Page.findOne({ slug })
-    .then(notFound())
+    .then(notFound('page not found'))
     .then((page) =>
       Section.find({ page })
         .then(notFound())
-        .then((sections) => ({ page: page.view(), sections: sections.map((section) => section.view()) }))
+        .then((sections) => ({ page: page.view(), sections: sections?.map((section) => section.view()) }))
         .catch(throwError())
     )
     .catch(throwError())

@@ -12,21 +12,20 @@ const create = (_, { statisticInput }, { reply }) =>
 const showByPage = (_, { page, days = 'for7' }, ctx) =>
   Page.findById(page)
     .populate('user')
-    .then(notFound())
+    .then(notFound('page not found'))
     .then(authorOrAdmin(ctx, 'user'))
-    .then((page) => {
-      const currentDays = Number(days.replace('for', '')) || 7
-      if (page) {
-        return Statistic.find({ page, createdAt: { $gte: new Date(Date.now() - 60 * 60 * 24 * currentDays * 1000) } }, null, {
-          sort: { createdAt: -1 }
-        })
-          .then((statistics) => statistics.map((statistic) => statistic.view()))
-          .catch(throwError())
-      } else return null
-    })
+    .then((page) =>
+      Statistic.find({ page, createdAt: { $gte: new Date(Date.now() - 60 * 60 * 24 * (Number(days.replace('for', '')) || 7) * 1000) } })
+        .sort({ createdAt: -1 })
+        .then((statistics) => statistics?.map((statistic) => statistic.view()))
+        .catch(throwError())
+    )
     .catch(throwError())
 
-export const show30Days = () => Statistic.find({ createdAt: { $gte: new Date(Date.now() - 60 * 60 * 24 * 30 * 1000) } }).catch(throwError())
+export const show30Days = () =>
+  Statistic.find({ createdAt: { $gte: new Date(Date.now() - 60 * 60 * 24 * 30 * 1000) } })
+    .sort({ createdAt: -1 })
+    .catch(throwError())
 
 export const resolvers = {
   Query: {

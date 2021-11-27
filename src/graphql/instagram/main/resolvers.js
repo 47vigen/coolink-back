@@ -1,4 +1,4 @@
-import { throwError } from '../../../services/response'
+import { notFound, throwError } from '../../../services/response'
 import { IGServiceEnable, IGThrowError } from '../../../services/instagram'
 import { saveMany as saveFeedsMany, showPageWithFeedsSectionsByPage } from '../feed/resolvers'
 
@@ -7,7 +7,9 @@ const showInfoByUsername = (_, { username }, ctx) =>
     .then((IG) =>
       IG.user
         .getIdByUsername(username)
+        .then(notFound('user not found'))
         .then((pk) => IG.user.info(pk))
+        .then(notFound('can not get user info'))
         .then(({ pk, hd_profile_pic_url_info: { url: profilePic }, full_name: fullName, is_private: isPrivate }) => ({
           pk,
           fullName,
@@ -18,10 +20,10 @@ const showInfoByUsername = (_, { username }, ctx) =>
     .catch(IGThrowError())
 
 const showFeedsByPage = (_, { page, next }, ctx) =>
-  IGServiceEnable()
-    .then((IG) =>
-      showPageWithFeedsSectionsByPage(_, { page }, ctx)
-        .then(({ page }) => {
+  showPageWithFeedsSectionsByPage(_, { page }, ctx)
+    .then(({ page }) =>
+      IGServiceEnable()
+        .then((IG) => {
           const followersFeed = IG.feed.user(page.pk)
           if (next) followersFeed.deserialize(JSON.stringify({ nextMaxId: next }))
           return followersFeed.request().then(({ items, next_max_id: nextPage }) => {

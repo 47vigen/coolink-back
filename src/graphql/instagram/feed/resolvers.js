@@ -15,14 +15,14 @@ export const saveMany = (feeds) =>
 
 const destroy = (_, { id }, ctx) =>
   Feed.findById(id)
-    .then(notFound())
+    .then(notFound('feed not found'))
     .then(authorOrAdmin(ctx, 'user'))
-    .then((feed) => (feed ? feed.remove() : null))
+    .then((feed) => feed.remove())
     .catch(throwError())
 
 const showOneWithPageSection = (_, { slug, pk }, ctx) =>
   Feed.findOne({ pk })
-    .then(notFound())
+    .then(notFound('feed not found'))
     .then((feed) =>
       showPageWithFeedsSectionBySlug(_, { slug, noFeeds: true }, ctx)
         .then((details) => ({ ...details, feed }))
@@ -32,10 +32,10 @@ const showOneWithPageSection = (_, { slug, pk }, ctx) =>
 
 const showPageWithFeedsSectionBySlug = (_, { slug, noFeeds = false }, ctx) =>
   Page.findOne({ slug })
-    .then(notFound())
+    .then(notFound('page not found'))
     .then((page) =>
       Section.findOne({ page, type: 'feeds' })
-        .then(notFound())
+        .then(notFound('page does not have feeds section'))
         .then((section) => {
           if (noFeeds) {
             return { page: page.view(), section: section.view() }
@@ -52,10 +52,10 @@ const showPageWithFeedsSectionBySlug = (_, { slug, noFeeds = false }, ctx) =>
 
 export const showPageWithFeedsSectionsByPage = (_, { page }, ctx) =>
   Section.findOne({ page, type: 'feeds' })
-    .then(notFound())
+    .then(notFound('feeds section not found'))
     .then((section) =>
       Page.findById(page)
-        .then(notFound())
+        .then(notFound('page not found'))
         .then((page) => ({ page: page.view(), section: section.view() }))
         .catch(throwError())
     )
