@@ -65,7 +65,7 @@ feedSchema.methods = {
   }
 }
 
-feedSchema.plugin(mongooseKeywords, { paths: ['caption'] })
+feedSchema.plugin(mongooseKeywords, { paths: ['title'] })
 
 const model = mongoose.model('Feed', feedSchema)
 
