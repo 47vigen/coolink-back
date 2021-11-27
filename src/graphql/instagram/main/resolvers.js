@@ -26,9 +26,9 @@ const showFeedsByPage = (_, { page, next }, ctx) =>
         .then((IG) => {
           const followersFeed = IG.feed.user(page.pk)
           if (next) followersFeed.deserialize(JSON.stringify({ nextMaxId: next }))
-          return followersFeed.request().then(({ items, next_max_id: nextPage }) => {
+          return followersFeed.request().then(async ({ items, next_max_id: nextPage }) => {
             const feeds = items
-              .map((item) => {
+              ?.map((item) => {
                 const slides = []
 
                 if (item?.id) {
@@ -71,9 +71,9 @@ const showFeedsByPage = (_, { page, next }, ctx) =>
                 }
                 return null
               })
-              .filter((item) => item)
+              ?.filter((item) => item)
 
-            saveFeedsMany(feeds)
+            if (feeds?.length) saveFeedsMany(feeds)
             return { feeds, next: nextPage }
           })
         })

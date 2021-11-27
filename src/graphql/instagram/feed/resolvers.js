@@ -3,11 +3,11 @@ import { Page } from '../../page'
 import { Section } from '../../section'
 import { authorOrAdmin, notFound, throwError } from '../../../services/response'
 
-export const saveMany = (feeds) =>
+export const saveMany = (feeds = []) =>
   Promise.all(
-    feeds.map(({ pk, ...feedInput }) =>
+    feeds?.map(({ pk, ...feedInput }) =>
       Feed.findOne({ pk })
-        .then((feed) => (feed ? Object.assign(feed, feedInput).save() : Feed.create(feed)))
+        .then((feed) => (feed ? Object.assign(feed, feedInput).save() : Feed.create({ pk, ...feedInput })))
         .then((feed) => (feed ? feed.view() : null))
         .catch((e) => console.log(e))
     )
