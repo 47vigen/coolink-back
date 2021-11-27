@@ -29,6 +29,7 @@ const showFeedsByPage = (_, { page, next }, ctx) =>
           return followersFeed.request().then(async ({ items, next_max_id: nextPage }) => {
             const feeds = items
               ?.map((item) => {
+                const caption = item.caption?.text
                 const slides = []
 
                 if (item?.id) {
@@ -63,10 +64,11 @@ const showFeedsByPage = (_, { page, next }, ctx) =>
 
                   return {
                     slides,
+                    caption,
                     pk: item.id,
                     pagePk: page.pk,
-                    caption: item.caption?.text,
-                    createdAt: new Date(item.taken_at * 1000)
+                    createdAt: new Date(item.taken_at * 1000),
+                    title: (caption?.split(/\n/)?.filter((text) => text && text.replace(/[!@#$%^&*(),.?":{}|_<>-]/gm, '')?.length > 7) || [])[0]
                   }
                 }
                 return null
