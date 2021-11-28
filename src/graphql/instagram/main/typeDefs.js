@@ -2,7 +2,7 @@ import { gql } from 'mercurius-codegen'
 
 export const typeDefs = gql`
   type Query {
-    showIGFeedsByPage(page: String!, next: String): PageFeeds
+    showIGFeedsByPage(page: ID!, next: String): PageFeeds
   }
 
   type Mutation {
