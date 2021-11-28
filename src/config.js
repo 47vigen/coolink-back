@@ -32,7 +32,11 @@ const config = {
     instagram: {
       enable: requireProcessEnv('IG_ENABLE') === '1' || false,
       botUsername: requireProcessEnv('IG_BOT_USERNAME'),
-      botPassword: requireProcessEnv('IG_BOT_PASSWORD')
+      botPassword: requireProcessEnv('IG_BOT_PASSWORD'),
+      hostname: process.env.IG_PROXY_HOSTNAME,
+      port: process.env.IG_PROXY_PORT,
+      username: process.env.IG_PROXY_USERNAME,
+      password: process.env.IG_PROXY_PASSWORD
     },
     email: {
       host: requireProcessEnv('EMAIL_HOST'),

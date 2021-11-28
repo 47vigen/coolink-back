@@ -8,6 +8,8 @@ import appRoot from 'app-root-path'
 
 import { instagram } from '../../config'
 
+const shttps = require('socks-proxy-agent')
+
 const writeFileSync = Promise.promisify(writeFile)
 const readFileSync = Promise.promisify(readFile)
 const accessSync = Promise.promisify(access)
@@ -17,6 +19,18 @@ export const IG = withFbns(new IgApiClient())
 
 export const IGConnect = async () => {
   IG.state.generateDevice(instagram.botUsername)
+
+  // use proxy
+  if (instagram.hostname && instagram.port && instagram.username && instagram.password) {
+    IG.request.defaults.agentClass = shttps // apply agent class to request library defaults
+    IG.request.defaults.agentOptions = {
+      hostname: instagram.hostname, // proxy hostname
+      port: instagram.port, // proxy port
+      protocol: 'socks5:', // supported: 'socks:' , 'socks4:' , 'socks4a:' , 'socks5:' , 'socks5h:'
+      username: instagram.username, // proxy username, optional
+      password: instagram.password // proxy password, optional
+    }
+  }
 
   // this will set the auth and the cookies for instagram
   await readState()
