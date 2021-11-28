@@ -40,7 +40,7 @@ const showPageWithFeedsSectionBySlug = (_, { slug, noFeeds = false }, ctx) =>
           if (noFeeds) {
             return { page: page.view(), section: section.view() }
           } else {
-            return Feed.find({ pagePk: page.pk }, null, { limit: 12 })
+            return Feed.find({ pagePk: page.pk }, null, { sort: { createdAt: -1 }, limit: 12 })
               .then((feeds) => feeds?.map((feed) => feed.view()))
               .then((feeds) => ({ page: page.view(), section: section.view(), feeds }))
               .catch(throwError())
