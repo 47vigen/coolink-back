@@ -70,7 +70,7 @@ const showWithSectionsBySlug = (_, { slug }, ctx) =>
   Page.findOne({ slug })
     .then(notFound('page not found'))
     .then((page) =>
-      Section.find({ page })
+      Section.find({ page }, null, { sort: { position: 1 } })
         .then(notFound())
         .then((sections) => ({ page: page.view(), sections: sections?.map((section) => section.view()) }))
         .catch(throwError())
