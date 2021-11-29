@@ -52,15 +52,15 @@ commentSchema.methods = {
       body: this.body,
       user: this.user.view(full),
       replies: this.replies?.filter((reply) => reply?.status === 1)?.map((reply) => reply?.view(full)),
-      createdAt: this.createdAt
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt
     }
     return full
       ? {
           ...view,
           status: this.status,
           post: this.post.view(full),
-          repliedTo: this.repliedTo?.view(full) || null,
-          updatedAt: this.updatedAt
+          repliedTo: this.repliedTo?.view(full) || null
         }
       : view
   }

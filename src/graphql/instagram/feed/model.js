@@ -54,14 +54,10 @@ feedSchema.methods = {
       title: this.title,
       slides: this.slides,
       caption: this.caption,
-      createdAt: this.createdAt
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt
     }
-    return full
-      ? {
-          ...view,
-          updatedAt: this.updatedAt
-        }
-      : view
+    return view
   }
 }
 

@@ -49,14 +49,14 @@ shortLinkSchema.methods = {
       slug: this.slug,
       isDeep: this.isDeep,
       destination: this.destination,
-      page: this.page?.view(full)
+      page: this.page?.view(full),
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt
     }
     return full
       ? {
           ...view,
-          user: this.user.view(true),
-          createdAt: this.createdAt,
-          updatedAt: this.updatedAt
+          user: this.user.view(true)
         }
       : view
   }

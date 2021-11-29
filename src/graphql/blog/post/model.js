@@ -61,15 +61,15 @@ postSchema.methods = {
       subTitle: this.subTitle,
       body: this.body,
       cover: this.cover,
-      attachment: this.attachment,
-      createdAt: this.createdAt,
       views: this.views,
-      user: this.user.view(full)
+      attachment: this.attachment,
+      user: this.user.view(full),
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt
     }
     return full
       ? {
-          ...view,
-          updatedAt: this.updatedAt
+          ...view
         }
       : view
   }

@@ -23,6 +23,8 @@ export const types = gql`
     avatar: Avatar
     style: Style
     user: User
+    createdAt: String!
+    updatedAt: String!
   }
 
   type Template {
@@ -32,6 +34,8 @@ export const types = gql`
     subTitle: String
     avatar: Avatar
     style: Style
+    createdAt: String!
+    updatedAt: String!
   }
 
   type Avatar {
@@ -89,8 +93,9 @@ export const types = gql`
     pk: String!
     title: String
     caption: String
-    createdAt: String!
     slides: [Slide]!
+    createdAt: String!
+    updatedAt: String!
   }
 
   type Slide {
@@ -110,6 +115,8 @@ export const types = gql`
     arrangement: String
     customized: Boolean!
     customize: [Customize!]
+    createdAt: String!
+    updatedAt: String!
   }
 
   type Item {
@@ -167,7 +174,8 @@ export const types = gql`
     referrer: String
     pathname: String
     ip: String
-    createdAt: String
+    createdAt: String!
+    updatedAt: String!
   }
 
   type ShortLink {
@@ -176,6 +184,8 @@ export const types = gql`
     isDeep: Boolean!
     destination: String!
     page: Page
+    createdAt: String!
+    updatedAt: String!
   }
 
   type Xml {

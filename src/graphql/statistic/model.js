@@ -44,19 +44,19 @@ statisticSchema.methods = {
   view(full) {
     const view = {
       id: this.id,
-      event: this.event,
+      ip: this.ip,
       ids: this.ids,
+      event: this.event,
       agent: this.agent,
       referrer: this.referrer,
       pathname: this.pathname,
-      ip: this.ip,
-      createdAt: this.createdAt
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt
     }
     return full
       ? {
           ...view,
-          page: this.page.view(true),
-          updatedAt: this.updatedAt
+          page: this.page.view(true)
         }
       : view
   }

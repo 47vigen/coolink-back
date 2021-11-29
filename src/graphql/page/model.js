@@ -95,14 +95,14 @@ pageSchema.methods = {
       title: this.title,
       subTitle: this.subTitle,
       avatar: this.avatar,
-      style: this.style
+      style: this.style,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt
     }
     return full
       ? {
           ...view,
-          user: this.user.view(true),
-          createdAt: this.createdAt,
-          updatedAt: this.updatedAt
+          user: this.user.view(true)
         }
       : view
   },
@@ -113,7 +113,9 @@ pageSchema.methods = {
       title: this.title,
       subTitle: this.subTitle,
       avatar: this.avatar,
-      style: this.style
+      style: this.style,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt
     }
   }
 }

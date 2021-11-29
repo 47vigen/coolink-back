@@ -76,19 +76,19 @@ sectionSchema.methods = {
       id: this.id,
       type: this.type,
       title: this.title,
+      items: this.items,
       position: this.position,
       arrangement: this.arrangement,
       customized: this.customized,
       customize: this.customize,
-      items: this.items
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt
     }
     return full
       ? {
           ...view,
           user: this.user.view(true),
-          page: this.page.view(true),
-          createdAt: this.createdAt,
-          updatedAt: this.updatedAt
+          page: this.page.view(true)
         }
       : view
   }
