@@ -65,7 +65,7 @@ const showFeedsByPage = (_, { page, next }, ctx) =>
                   return {
                     slides,
                     caption,
-                    pk: item.id,
+                    pk: item.pk,
                     pagePk: page.pk,
                     createdAt: new Date(item.taken_at * 1000),
                     title: (caption?.split(/\n/)?.filter((text) => text && text.replace(/[!@#$%^&*(),.?":{}|_<>-]/gm, '')?.length > 7) || [])[0]
