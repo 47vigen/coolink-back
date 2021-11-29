@@ -1,4 +1,4 @@
-import Section from '.'
+import { Section } from '.'
 import { validate } from 'uuid'
 import { authorOrAdmin, notFound, throwError } from '../../services/response'
 

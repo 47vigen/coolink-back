@@ -1,4 +1,4 @@
-import ShortLink from '.'
+import { ShortLink } from '.'
 import { throwError, notFound, authorOrAdmin } from '../../services/response/'
 
 const create = (_, { shortLinkInput }, { auth }) =>
