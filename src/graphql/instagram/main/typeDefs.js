@@ -2,6 +2,7 @@ import { gql } from 'mercurius-codegen'
 
 export const typeDefs = gql`
   type Query {
+    showOneFeedByPk(pk: String!): Boolean
     showIGFeedsByPage(page: ID!, next: String): PageFeeds
   }
 

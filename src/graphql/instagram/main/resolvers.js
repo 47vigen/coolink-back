@@ -83,6 +83,19 @@ const showFeedsByPage = (_, { page, next }, ctx) =>
     )
     .catch(IGThrowError())
 
+const showOneFeedByPk = (_, { pk }, ctx) =>
+  IGServiceEnable()
+    .then((IG) =>
+      IG.media
+        .info(pk)
+        .then((feed) => {
+          console.log(feed)
+          return true
+        })
+        .catch(throwError())
+    )
+    .catch(IGThrowError())
+
 export const sendFollowRequest = async (_, { pk }, ctx) =>
   IGServiceEnable()
     .then((IG) => IG.friendship.create(pk))
@@ -91,6 +104,7 @@ export const sendFollowRequest = async (_, { pk }, ctx) =>
 
 export const resolvers = {
   Query: {
+    showOneFeedByPk,
     showIGFeedsByPage: showFeedsByPage
   },
   Mutation: {
