@@ -42,8 +42,9 @@ const showOneFeedByPk = (_, { pk }, ctx) =>
     .then((IG) =>
       IG.media
         .info(pk)
-        .then((items) => {
-          const feeds = simplifyIGMedias(items, 'dastan')
+        .then((resault) => {
+          if (!resault.items?.length) return false
+          const feeds = simplifyIGMedias(resault.items, 'dastan')
           console.log(feeds)
           return true
         })
