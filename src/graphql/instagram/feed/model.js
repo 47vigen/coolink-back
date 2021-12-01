@@ -54,6 +54,7 @@ feedSchema.methods = {
       pk: this.pk,
       title: this.title,
       slides: this.slides,
+      pagePk: this.pagePk,
       caption: this.caption,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
