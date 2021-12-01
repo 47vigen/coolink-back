@@ -50,6 +50,11 @@ const showPageWithFeedsSectionBySlug = (_, { slug, noFeeds = false }, ctx) =>
     )
     .catch(throwError())
 
+const search = (_, { pagePk, q }, ctx) =>
+  Feed.find({ pagePk: pagePk, $text: { $search: new RegExp(q, 'i') } }, null, { sort: { createdAt: -1 }, limit: 12 })
+    .then((feeds) => feeds?.map((feed) => feed.view()))
+    .catch(throwError())
+
 export const showPageWithFeedsSectionsByPage = (_, { page }, ctx) =>
   Section.findOne({ page, type: 'feeds' })
     .then(notFound('feeds section not found'))
@@ -63,6 +68,7 @@ export const showPageWithFeedsSectionsByPage = (_, { page }, ctx) =>
 
 export const resolvers = {
   Query: {
+    searchFeeds: search,
     showPageWithFeedsSectionBySlug,
     showOneFeedWithPageSection: showOneWithPageSection
   },

@@ -16,7 +16,8 @@ const feedSchema = new Schema(
       type: String
     },
     caption: {
-      type: String
+      type: String,
+      index: true
     },
     slides: [
       {
@@ -60,6 +61,8 @@ feedSchema.methods = {
     return view
   }
 }
+
+feedSchema.index({ caption: 'text' })
 
 feedSchema.plugin(mongooseKeywords, { paths: ['title'] })
 
