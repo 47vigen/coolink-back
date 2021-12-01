@@ -15,7 +15,7 @@ export const saveMany = (feeds = []) =>
   ).catch((e) => console.log(e))
 
 const search = (_, { pagePk, q }, ctx) =>
-  Feed.find({ pagePk: pagePk, $text: { $search: term(q) } }, null, { sort: { createdAt: -1 }, limit: 12 })
+  Feed.find({ pagePk, $text: { $search: term(q) } }, null, { sort: { createdAt: -1 }, limit: 12 })
     .then((feeds) => feeds?.map((feed) => feed.view()))
     .catch(throwError())
 
