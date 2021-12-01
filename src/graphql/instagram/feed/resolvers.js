@@ -16,7 +16,7 @@ export const saveMany = (feeds = []) =>
   ).catch(throwError(null, feeds))
 
 const search = (_, { pagePk, q }, ctx) =>
-  Feed.find({ pagePk, $text: { $search: term(q) } }, null, { sort: { createdAt: -1 }, limit: 12 })
+  Feed.find({ pagePk, $text: { $search: term(q) } }, null, { sort: { createdAt: -1 } })
     .then((feeds) => feeds?.map((feed) => feed.view()))
     .then((feeds) => updateOldFeeds(feeds))
     .catch(throwError())
@@ -49,7 +49,7 @@ const showPageWithFeedsSectionBySlug = (_, { slug, noFeeds = false }, ctx) =>
           if (noFeeds) {
             return { page: page.view(), section: section.view() }
           } else {
-            return Feed.find({ pagePk: page.pk }, null, { sort: { createdAt: -1 } })
+            return Feed.find({ pagePk: page.pk }, null, { sort: { createdAt: -1 }, limit: 12 })
               .then((feeds) => feeds?.map((feed) => feed.view()))
               .then((feeds) => ({ page: page.view(), section: section.view(), feeds }))
               .catch(throwError())
