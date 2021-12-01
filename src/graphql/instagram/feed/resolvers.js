@@ -2,6 +2,7 @@ import { Feed } from '.'
 import { Page } from '../../page'
 import { Section } from '../../section'
 import { authorOrAdmin, notFound, throwError } from '../../../services/response'
+import term from '../../../utils/term'
 
 export const saveMany = (feeds = []) =>
   Promise.all(
@@ -12,6 +13,11 @@ export const saveMany = (feeds = []) =>
         .catch((e) => console.log(e))
     )
   ).catch((e) => console.log(e))
+
+const search = (_, { pagePk, q }, ctx) =>
+  Feed.find({ pagePk: pagePk, $text: { $search: term(q) } }, null, { sort: { createdAt: -1 }, limit: 12 })
+    .then((feeds) => feeds?.map((feed) => feed.view()))
+    .catch(throwError())
 
 const destroy = (_, { id }, ctx) =>
   Feed.findById(id)
@@ -48,11 +54,6 @@ const showPageWithFeedsSectionBySlug = (_, { slug, noFeeds = false }, ctx) =>
         })
         .catch(throwError())
     )
-    .catch(throwError())
-
-const search = (_, { pagePk, q }, ctx) =>
-  Feed.find({ pagePk: pagePk, $text: { $search: new RegExp(q, 'i') } }, null, { sort: { createdAt: -1 }, limit: 12 })
-    .then((feeds) => feeds?.map((feed) => feed.view()))
     .catch(throwError())
 
 export const showPageWithFeedsSectionsByPage = (_, { page }, ctx) =>
