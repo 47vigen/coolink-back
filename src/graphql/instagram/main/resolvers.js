@@ -1,6 +1,7 @@
 import { notFound, throwError } from '../../../services/response'
 import { IGServiceEnable, IGThrowError } from '../../../services/instagram'
 import { saveMany as saveFeedsMany, showPageWithFeedsSectionsByPage } from '../feed/resolvers'
+import simplifyIGMedias from '../../../utils/simplifyIGMedias'
 
 const showInfoByUsername = (_, { username }, ctx) =>
   IGServiceEnable()
@@ -27,54 +28,7 @@ const showFeedsByPage = (_, { page, next }, ctx) =>
           const followersFeed = IG.feed.user(page.pk)
           if (next) followersFeed.deserialize(JSON.stringify({ nextMaxId: next }))
           return followersFeed.request().then(async ({ items, next_max_id: nextPage }) => {
-            const feeds = items
-              ?.map((item) => {
-                const caption = item.caption?.text
-                const slides = []
-
-                if (item?.id) {
-                  if (item.carousel_media_count) {
-                    // eslint-disable-next-line array-callback-return
-                    item.carousel_media.map((media) => {
-                      if (media?.video_duration) {
-                        slides?.push({
-                          type: 'video',
-                          imageUrl: media?.image_versions2?.candidates[0]?.url,
-                          videoUrl: media?.video_versions[0]?.url
-                        })
-                      } else {
-                        slides?.push({
-                          type: 'image',
-                          imageUrl: media?.image_versions2?.candidates[0]?.url
-                        })
-                      }
-                    })
-                  } else if (item.video_duration) {
-                    slides?.push({
-                      type: 'video',
-                      imageUrl: item.image_versions2?.candidates[0]?.url,
-                      videoUrl: item.video_versions[0]?.url
-                    })
-                  } else {
-                    slides?.push({
-                      type: 'image',
-                      imageUrl: item.image_versions2?.candidates[0]?.url
-                    })
-                  }
-
-                  return {
-                    slides,
-                    caption,
-                    pk: item.pk,
-                    pagePk: page.pk,
-                    createdAt: new Date(item.taken_at * 1000),
-                    title: (caption?.split(/\n/)?.filter((text) => text && text.replace(/[!@#$%^&*(),.?":{}|_<>-]/gm, '')?.length > 7) || [])[0]
-                  }
-                }
-                return null
-              })
-              ?.filter((item) => item)
-
+            const feeds = simplifyIGMedias(items, page.pk)
             if (feeds?.length) saveFeedsMany(feeds)
             return { feeds, next: nextPage }
           })
@@ -88,8 +42,9 @@ const showOneFeedByPk = (_, { pk }, ctx) =>
     .then((IG) =>
       IG.media
         .info(pk)
-        .then((feed) => {
-          console.log(feed)
+        .then((items) => {
+          const feeds = simplifyIGMedias(items, 'dastan')
+          console.log(feeds)
           return true
         })
         .catch(throwError())
