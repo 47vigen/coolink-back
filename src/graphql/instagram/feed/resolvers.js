@@ -1,8 +1,9 @@
 import { Feed } from '.'
 import { Page } from '../../page'
 import { Section } from '../../section'
-import { authorOrAdmin, notFound, throwError } from '../../../services/response'
 import term from '../../../utils/term'
+import { authorOrAdmin, notFound, throwError } from '../../../services/response'
+import { updateOldFeeds } from '../main/resolvers'
 
 export const saveMany = (feeds = []) =>
   Promise.all(
@@ -10,13 +11,14 @@ export const saveMany = (feeds = []) =>
       Feed.findOne({ pk })
         .then((feed) => (feed ? Object.assign(feed, feedInput).save() : Feed.create({ pk, ...feedInput })))
         .then((feed) => (feed ? feed.view() : null))
-        .catch((e) => console.log(e))
+        .catch(throwError(null, { pk, ...feedInput }))
     )
-  ).catch((e) => console.log(e))
+  ).catch(throwError(null, feeds))
 
 const search = (_, { pagePk, q }, ctx) =>
   Feed.find({ pagePk, $text: { $search: term(q) } }, null, { sort: { createdAt: -1 }, limit: 12 })
     .then((feeds) => feeds?.map((feed) => feed.view()))
+    .then((feeds) => updateOldFeeds(feeds))
     .catch(throwError())
 
 const destroy = (_, { id }, ctx) =>
@@ -29,9 +31,10 @@ const destroy = (_, { id }, ctx) =>
 const showOneWithPageSection = (_, { slug, pk }, ctx) =>
   Feed.findOne({ pk })
     .then(notFound('feed not found'))
-    .then((feed) =>
+    .then((feed) => updateOldFeeds([feed]))
+    .then((feeds) =>
       showPageWithFeedsSectionBySlug(_, { slug, noFeeds: true }, ctx)
-        .then((details) => ({ ...details, feed }))
+        .then((details) => ({ ...details, feed: feeds[0] }))
         .catch(throwError())
     )
     .catch(throwError())

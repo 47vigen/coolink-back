@@ -1,5 +1,10 @@
-export const throwError = (message) => (entityErr) => {
-  throw new Error(message || entityErr)
+export const throwError = (message, notImportant) => (entityErr) => {
+  if (notImportant) {
+    console.log(message || entityErr)
+    return notImportant
+  } else {
+    throw new Error(message || entityErr)
+  }
 }
 
 export const notFound = (message) => (entity) => {

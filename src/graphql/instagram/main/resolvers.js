@@ -37,20 +37,29 @@ const showFeedsByPage = (_, { page, next }, ctx) =>
     )
     .catch(IGThrowError())
 
-const showOneFeedByPk = (_, { pk }, ctx) =>
+export const updateOldFeeds = (feeds = []) =>
   IGServiceEnable()
     .then((IG) =>
-      IG.media
-        .info(pk)
-        .then((resault) => {
-          if (!resault.items?.length) return false
-          const feeds = simplifyIGMedias(resault.items, 'dastan')
-          console.log(feeds)
-          return true
+      Promise.all(
+        feeds.map((feed) => {
+          if (Math.abs(new Date() - new Date(+feed.updatedAt)) / (1000 * 60 * 60 * 24) >= 7) {
+            return IG.media
+              .info(feed.pk)
+              .then((resault) => {
+                if (!resault.items?.length) return feed
+                const feeds = simplifyIGMedias(resault.items, feed.pagePk)
+                if (feeds?.length) {
+                  return saveFeedsMany(feeds)
+                    .then((feeds) => feeds[0])
+                    .catch(throwError(null, feeds[0]))
+                } else return feed
+              })
+              .catch(throwError(null, feed))
+          } else return feed
         })
-        .catch(throwError())
+      ).catch(throwError(null, feeds))
     )
-    .catch(IGThrowError())
+    .catch(throwError(null, feeds))
 
 export const sendFollowRequest = async (_, { pk }, ctx) =>
   IGServiceEnable()
@@ -60,7 +69,6 @@ export const sendFollowRequest = async (_, { pk }, ctx) =>
 
 export const resolvers = {
   Query: {
-    showOneFeedByPk,
     showIGFeedsByPage: showFeedsByPage
   },
   Mutation: {
